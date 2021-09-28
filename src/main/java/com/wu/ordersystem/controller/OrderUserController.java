@@ -19,10 +19,8 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月23日
+ * @author wujianxin
+ * @date 2021-09-23
  * @description
  */
 

@@ -3,10 +3,8 @@ package com.wu.ordersystem.common;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月25日
+ * @author wujianxin
+ * @date 2021-09-26日
  * @description
  */
 

@@ -9,10 +9,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月26日
+ * @author wujianxin
+ * @date 2021-09-26日
  * @description
  */
 

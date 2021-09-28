@@ -7,8 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author saltedfishzzZ
+ * @author wujianxin
+ * @date 2021-09-23
+ * @description
  */
+
 @SpringBootApplication(scanBasePackages = "com.wu.ordersystem")
 public class OrderSystemApplication {
 

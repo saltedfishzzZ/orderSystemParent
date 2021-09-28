@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月27日
+ * @author wujianxin
+ * @date 2021-09-27
  * @description
  */
 

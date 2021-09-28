@@ -6,18 +6,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月26日
- * @description
+ * @author wujianxin
+ * @date 2021-09-26
+ * @description 跨域处理器
  */
 
 @Configuration

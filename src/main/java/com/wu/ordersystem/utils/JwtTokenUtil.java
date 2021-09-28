@@ -14,12 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @name BaseService CopyRright (c) 2021 by
- * <a href="mailto:wujianxin@corp.51xiaodou.com">wujianxin</a>
- * @date 2021年09月24日
+ * @author wujianxin
+ * @date 2021-09-24
  * @description jwt工具类
  */
+
 @Component
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
