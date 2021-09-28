@@ -1,0 +1,24 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: order-system
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_system
+    username: root
+    password: 123456
+    hikari:
+      pool-name: mysql-pool
+      minimum-idle: 5
+      maximum-pool-size: 20
+      max-lifetime: 30000
+      connection-test-query: select now()
+      keepalive-time: 30000
+  jpa:
+    show-sql: true
+    database: mysql
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
