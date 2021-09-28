@@ -1,5 +1,6 @@
 package com.wu.ordersystem.pojo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,6 +18,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "order_merchant")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class OrderMerchant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
