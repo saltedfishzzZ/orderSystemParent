@@ -1,5 +1,6 @@
 package com.wu.ordersystem.pojo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,8 +29,26 @@ public class OrderMerchant {
 
     private String telephone;
 
+    /**
+     * 商户状态, 0-失效, 1-有效
+     */
+    private Short status;
+
+    /**
+     * 公告
+     */
+    private String announcement;
+
+    /**
+     * 营业开始时间
+     */
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime businessStartTime;
 
+    /**
+     * 营业结束时间
+     */
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime businessEndTime;
 
     @CreationTimestamp
@@ -68,6 +87,14 @@ public class OrderMerchant {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getAnnouncement() {
+        return announcement;
+    }
+
+    public void setAnnouncement(String announcement) {
+        this.announcement = announcement;
     }
 
     public LocalTime getBusinessStartTime() {

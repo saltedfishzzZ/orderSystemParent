@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 @Configuration
-public class LocalDateTimeSerializerConfig {
+public class CustomizeSerializerConfig {
 
     @Value("${spring.jackson.date-format}")
     private String datePattern;
@@ -31,17 +31,15 @@ public class LocalDateTimeSerializerConfig {
     }
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2LocalDateTimeMapperBuilderCustomizer() {
-        return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());
-    }
-
-    @Bean
     public LocalTimeSerializer localTimeSerializer() {
         return new LocalTimeSerializer(DateTimeFormatter.ofPattern(timePattern));
     }
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2LocalTimeMapperBuilderCustomizer() {
-        return builder -> builder.serializerByType(LocalTime.class, localTimeSerializer());
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return builder -> {
+            builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());
+            builder.serializerByType(LocalTime.class, localTimeSerializer());
+        };
     }
 }
