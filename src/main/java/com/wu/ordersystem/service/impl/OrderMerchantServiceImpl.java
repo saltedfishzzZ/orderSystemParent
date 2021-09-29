@@ -21,4 +21,9 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
     public OrderMerchant getMerchantById(Long id) {
         return orderMerchantRepo.getById(id);
     }
+
+    @Override
+    public OrderMerchant updateMerchantById(OrderMerchant orderMerchant) {
+        return orderMerchantRepo.save(orderMerchant);
+    }
 }

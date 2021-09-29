@@ -11,4 +11,6 @@ import com.wu.ordersystem.pojo.domain.OrderMerchant;
 public interface OrderMerchantService {
 
     OrderMerchant getMerchantById(Long id);
+
+    OrderMerchant updateMerchantById(OrderMerchant orderMerchant);
 }
