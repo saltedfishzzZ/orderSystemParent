@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wu.ordersystem.WhiteListUrlProps;
 import com.wu.ordersystem.common.CommonResult;
 import com.wu.ordersystem.common.Constants;
+import com.wu.ordersystem.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class CheckTokenFilter implements Filter {
     private WhiteListUrlProps whiteListUrlProps;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -51,15 +54,26 @@ public class CheckTokenFilter implements Filter {
         // 请求白名单
         List<String> whiteListUrl = whiteListUrlProps.getWhiteListUrl();
 
+        // 校验是否在白名单内
         if (whiteListUrl.contains(requestURI)) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
+        // 进行token存在校验
         String token = request.getHeader("token");
         if (Objects.isNull(token)) {
             logger.warn("{}-----请求时没有token", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
-            CommonResult commonResult = CommonResult.unauth();
+            CommonResult commonResult = CommonResult.unauth().message("header中不存在token");
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(objectMapper.writeValueAsString(commonResult));
+            response.flushBuffer();
+            return;
+        }
+        // 进行token是否有效校验
+        if (jwtTokenUtil.validateToken(token)) {
+            logger.warn("{}-----请求时token已过期", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+            CommonResult commonResult = CommonResult.unauth().message("token已过期");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));
             response.flushBuffer();

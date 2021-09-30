@@ -91,9 +91,8 @@ public class JwtTokenUtil {
      * @param user
      * @return
      */
-    public boolean validateToken(String token, OrderUser user) {
-        String username = getUsernameFromToken(token);
-        return Objects.equals(username, user.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token) {
+        return !isTokenExpired(token);
     }
 
     /**
