@@ -3,13 +3,11 @@ package com.wu.ordersystem.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wu.ordersystem.WhiteListUrlProps;
 import com.wu.ordersystem.common.CommonResult;
-import com.wu.ordersystem.common.Constants;
+import com.wu.ordersystem.utils.GenerateTimeUtil;
 import com.wu.ordersystem.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -17,7 +15,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +43,7 @@ public class CheckTokenFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("{}-----检验token中", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+        logger.info("{}-----检验token中", GenerateTimeUtil.generateNowTime());
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         // 请求路径
@@ -63,7 +60,7 @@ public class CheckTokenFilter implements Filter {
         // 进行token存在校验
         String token = request.getHeader("token");
         if (Objects.isNull(token)) {
-            logger.warn("{}-----请求时没有token", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+            logger.warn("{}-----请求时没有token", GenerateTimeUtil.generateNowTime());
             CommonResult commonResult = CommonResult.unauth().message("header中不存在token");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));
@@ -72,7 +69,7 @@ public class CheckTokenFilter implements Filter {
         }
         // 进行token是否有效校验
         if (jwtTokenUtil.validateToken(token)) {
-            logger.warn("{}-----请求时token已过期", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+            logger.warn("{}-----请求时token已过期", GenerateTimeUtil.generateNowTime());
             CommonResult commonResult = CommonResult.unauth().message("token已过期");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));

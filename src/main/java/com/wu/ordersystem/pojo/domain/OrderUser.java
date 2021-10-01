@@ -1,6 +1,7 @@
 package com.wu.ordersystem.pojo.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,9 +34,11 @@ public class OrderUser {
     private String avatar;
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
     public Long getId() {
@@ -108,5 +111,8 @@ public class OrderUser {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public OrderUser() {
     }
 }

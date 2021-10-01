@@ -81,4 +81,7 @@ public class OrderMerchantDTO {
     public void setBusinessEndTime(LocalTime businessEndTime) {
         this.businessEndTime = businessEndTime;
     }
+
+    public OrderMerchantDTO() {
+    }
 }

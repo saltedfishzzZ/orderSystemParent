@@ -1,14 +1,22 @@
 package com.wu.ordersystem.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wu.ordersystem.common.Constants;
 import com.wu.ordersystem.pojo.domain.OrderUser;
 import com.wu.ordersystem.repository.OrderUserRepo;
 import com.wu.ordersystem.service.OrderUserService;
+import com.wu.ordersystem.utils.GenerateTimeUtil;
 import com.wu.ordersystem.utils.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wujianxin
@@ -19,26 +27,70 @@ import java.util.Objects;
 @Service
 public class OrderUserServiceImpl implements OrderUserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderUserServiceImpl.class);
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private OrderUserRepo orderUserRepo;
 
     @Override
     public OrderUser queryUserByUsername(String username) {
+        // 从缓存中获取用户信息
+        String value = stringRedisTemplate.opsForValue().get(String.format(Constants.ORDER_USER_KEY, username));
+
+        if (Objects.nonNull(value)) {
+            try {
+                return objectMapper.readValue(value, OrderUser.class);
+            } catch (JsonProcessingException e) {
+                logger.error("{}-----{}用户缓存信息反序列化失败-----{}",
+                        GenerateTimeUtil.generateNowTime(), username, e.getMessage());
+            }
+        }
+
+        // 缓存没有命中, 从数据库中查询
         List<OrderUser> userList = orderUserRepo.findByUsername(username);
 
         if (Objects.nonNull(userList) && !userList.isEmpty()) {
-            return userList.get(0);
+            OrderUser orderUser = userList.get(0);
+            // 缓存到redis中
+            if (Objects.nonNull(orderUser)) {
+                try {
+                    stringRedisTemplate
+                            .opsForValue()
+                            .set(String.format(Constants.ORDER_USER_KEY, username),
+                                    objectMapper.writeValueAsString(orderUser),
+                                    Constants.ORDER_USER_TIME, TimeUnit.DAYS);
+                } catch (JsonProcessingException e) {
+                    logger.error("{}-----{}用户信息序列化失败-----{}",
+                            GenerateTimeUtil.generateNowTime(), username, e.getMessage());
+                }
+            }
+            return orderUser;
         }
 
         return null;
     }
 
     @Override
+    public String getTokenFromCache(String username) {
+        return stringRedisTemplate.opsForValue().get(String.format(Constants.ORDER_USER_TOKEN_KEY, username));
+    }
+
+    @Override
     public String generateTokenByUsername(OrderUser user) {
-        return jwtTokenUtil.generateToken(user);
+        String token = jwtTokenUtil.generateToken(user);
+        stringRedisTemplate.opsForValue().set(String.format(Constants.ORDER_USER_TOKEN_KEY, user.getUsername()),
+                token,
+                Constants.ORDER_USER_TOKEN_TIME, TimeUnit.DAYS);
+        return token;
     }
 
     @Override

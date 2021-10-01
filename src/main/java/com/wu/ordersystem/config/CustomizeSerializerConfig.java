@@ -35,7 +35,7 @@ public class CustomizeSerializerConfig {
         return new LocalTimeSerializer(DateTimeFormatter.ofPattern(timePattern));
     }
 
-    @Bean
+    @Bean("objectMapper")
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> {
             builder.serializerByType(LocalDateTime.class, localDateTimeSerializer());

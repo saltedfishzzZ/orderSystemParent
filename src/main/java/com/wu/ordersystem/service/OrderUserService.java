@@ -1,7 +1,7 @@
 package com.wu.ordersystem.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wu.ordersystem.pojo.domain.OrderUser;
-import org.springframework.stereotype.Service;
 
 /**
  * @author wujianxin
@@ -15,7 +15,9 @@ public interface OrderUserService {
      * @param username 用户名
      * @return user
      */
-    OrderUser queryUserByUsername(String username);
+    OrderUser queryUserByUsername(String username) throws JsonProcessingException;
+
+    String getTokenFromCache(String username);
 
     String generateTokenByUsername(OrderUser user);
 

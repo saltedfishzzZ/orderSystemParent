@@ -92,7 +92,7 @@ public class JwtTokenUtil {
      * @return
      */
     public boolean validateToken(String token) {
-        return !isTokenExpired(token);
+        return isTokenExpired(token);
     }
 
     /**

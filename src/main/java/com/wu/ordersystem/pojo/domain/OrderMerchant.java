@@ -42,19 +42,21 @@ public class OrderMerchant {
     /**
      * 营业开始时间
      */
-    @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime businessStartTime;
 
     /**
      * 营业结束时间
      */
-    @JsonFormat(pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime businessEndTime;
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
     public Long getId() {
@@ -87,6 +89,14 @@ public class OrderMerchant {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
     }
 
     public String getAnnouncement() {
@@ -127,5 +137,8 @@ public class OrderMerchant {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public OrderMerchant() {
     }
 }

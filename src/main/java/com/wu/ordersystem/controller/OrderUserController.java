@@ -1,21 +1,17 @@
 package com.wu.ordersystem.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wu.ordersystem.common.CommonResult;
-import com.wu.ordersystem.common.Constants;
 import com.wu.ordersystem.pojo.domain.OrderUser;
 import com.wu.ordersystem.pojo.dto.OrderUserDTO;
 import com.wu.ordersystem.service.OrderUserService;
+import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -34,8 +30,9 @@ public class OrderUserController {
     private OrderUserService orderUserService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public CommonResult login(@Valid @RequestBody OrderUserDTO orderUserDTO) {
-        logger.info("{}-----请求登录接口", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+    public CommonResult login(@Valid @RequestBody OrderUserDTO orderUserDTO) throws JsonProcessingException {
+        logger.info("{}-----请求登录接口", GenerateTimeUtil.generateNowTime());
+
         OrderUser orderUser = orderUserService.queryUserByUsername(orderUserDTO.getUsername());
 
         if (Objects.isNull(orderUser)) {
@@ -44,7 +41,10 @@ public class OrderUserController {
         if (!orderUserDTO.getPassword().equals(orderUser.getPassword())) {
             return CommonResult.failed().message("密码错误");
         }
-        String token = orderUserService.generateTokenByUsername(orderUser);
+        String token = orderUserService.getTokenFromCache(orderUserDTO.getUsername());
+        if (Objects.isNull(token)) {
+            token = orderUserService.generateTokenByUsername(orderUser);
+        }
         return CommonResult.success()
                 .message("登录成功")
                 .data("token", token)
@@ -54,8 +54,8 @@ public class OrderUserController {
     }
 
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
-    public CommonResult getUserInfo(@RequestHeader("token") String token) {
-        logger.info("{}-----请求获取用户信息接口", LocalDateTime.now().format(Constants.DATE_TIME_FORMATTER));
+    public CommonResult getUserInfo(@RequestHeader("token") String token) throws JsonProcessingException {
+        logger.info("{}-----请求获取用户信息接口", GenerateTimeUtil.generateNowTime());
         if (Objects.isNull(token)) {
             return CommonResult.failed()
                     .message("token参数为空");

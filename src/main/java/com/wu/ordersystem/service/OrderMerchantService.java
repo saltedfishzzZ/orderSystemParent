@@ -12,5 +12,5 @@ public interface OrderMerchantService {
 
     OrderMerchant getMerchantById(Long id);
 
-    OrderMerchant updateMerchantById(OrderMerchant orderMerchant);
+    void updateMerchantById(OrderMerchant orderMerchant);
 }
