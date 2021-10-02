@@ -1,7 +1,7 @@
 package com.wu.ordersystem.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wu.ordersystem.WhiteListUrlProps;
+import com.wu.ordersystem.config.WhiteListUrlProps;
 import com.wu.ordersystem.common.CommonResult;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
 import com.wu.ordersystem.utils.JwtTokenUtil;
