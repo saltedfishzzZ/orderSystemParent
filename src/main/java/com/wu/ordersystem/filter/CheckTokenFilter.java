@@ -46,6 +46,10 @@ public class CheckTokenFilter implements Filter {
         logger.info("{}-----校验token中", GenerateTimeUtil.generateNowTime());
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
+        response.setHeader("Access-Control-Allow-Headers", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "*");
         // 请求路径
         String requestURI = request.getRequestURI();
         // 请求白名单
