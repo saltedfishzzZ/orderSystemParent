@@ -19,7 +19,7 @@ public class Constants {
 
     // order:user:token:username
     public static final String ORDER_USER_TOKEN_KEY = "order:user:token:%s";
-    public static final Integer ORDER_USER_TOKEN_TIME = 30;
+    public static final Integer ORDER_USER_TOKEN_TIME = 7;
 
     // order:merchant:info:id
     public static final String ORDER_MERCHANT_INFO_KEY = "order:merchant:info:%s";

@@ -38,12 +38,12 @@ public class CheckTokenFilter implements Filter {
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("{}-----检验token中", GenerateTimeUtil.generateNowTime());
+        logger.info("{}-----校验token中", GenerateTimeUtil.generateNowTime());
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         // 请求路径

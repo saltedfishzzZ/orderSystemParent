@@ -2,6 +2,7 @@ package com.wu.ordersystem.utils;
 
 import com.wu.ordersystem.pojo.domain.OrderUser;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -55,6 +56,8 @@ public class JwtTokenUtil {
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
         } catch (Exception e) {
             logger.info("JWT格式验证失败: {}", token);
         }
@@ -88,7 +91,6 @@ public class JwtTokenUtil {
     /**
      * 验证token是否有效
      * @param token
-     * @param user
      * @return
      */
     public boolean validateToken(String token) {
@@ -102,6 +104,9 @@ public class JwtTokenUtil {
      */
     private boolean isTokenExpired(String token) {
         Date expiredDate = getExpiredDateFromToken(token);
+        if (Objects.isNull(expiredDate)) {
+            return Boolean.TRUE;
+        }
         return expiredDate.before(new Date());
     }
 
@@ -112,6 +117,9 @@ public class JwtTokenUtil {
      */
     private Date getExpiredDateFromToken(String token){
         Claims claims = getClaimsFromToken(token);
+        if (Objects.isNull(claims)) {
+            return null;
+        }
         return claims.getExpiration();
     }
 
