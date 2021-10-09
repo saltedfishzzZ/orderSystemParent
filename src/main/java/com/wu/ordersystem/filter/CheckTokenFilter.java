@@ -43,7 +43,6 @@ public class CheckTokenFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        logger.info("{}-----校验token中", GenerateTimeUtil.generateNowTime());
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
@@ -64,7 +63,6 @@ public class CheckTokenFilter implements Filter {
         // 进行token存在校验
         String token = request.getHeader("token");
         if (Objects.isNull(token)) {
-            logger.warn("{}-----请求时没有token", GenerateTimeUtil.generateNowTime());
             CommonResult commonResult = CommonResult.unauth().message("header中不存在token");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));

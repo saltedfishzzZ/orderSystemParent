@@ -68,4 +68,9 @@ public class OrderUserController {
                 .data("nickName", orderUser.getNickName())
                 .data("avatar", orderUser.getAvatar());
     }
+
+    @PostMapping("/logout")
+    public CommonResult logout() {
+        return CommonResult.success();
+    }
 }
