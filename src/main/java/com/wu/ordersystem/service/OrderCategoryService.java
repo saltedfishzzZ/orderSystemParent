@@ -1,5 +1,8 @@
 package com.wu.ordersystem.service;
 
+import com.wu.ordersystem.pojo.domain.OrderCategory;
+import org.springframework.data.domain.Page;
+
 /**
  * @author saltedfishzzZ
  * @date 2021-10-10
@@ -7,4 +10,5 @@ package com.wu.ordersystem.service;
  */
 
 public interface OrderCategoryService {
+    Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize);
 }
