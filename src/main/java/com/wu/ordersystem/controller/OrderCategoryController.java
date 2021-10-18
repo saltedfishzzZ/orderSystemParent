@@ -1,12 +1,10 @@
 package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
+import com.wu.ordersystem.pojo.dto.OrderCategoryDTO;
 import com.wu.ordersystem.service.OrderCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -32,5 +30,14 @@ public class OrderCategoryController {
         }
         return CommonResult.success()
                 .data("categoryList", orderCategoryService.listCategory(id, pageNo, pageSize));
+    }
+
+    @PostMapping("/{id}")
+    public CommonResult update(@PathVariable Long id, @RequestBody OrderCategoryDTO orderCategoryDTO) {
+        boolean result = orderCategoryService.updateById(id, orderCategoryDTO);
+        if (!result) {
+            return CommonResult.failed();
+        }
+        return CommonResult.success();
     }
 }
