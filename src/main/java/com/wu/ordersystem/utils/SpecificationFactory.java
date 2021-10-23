@@ -12,11 +12,11 @@ import java.util.Collection;
  * @description JPA查询条件 的构造工厂类
  */
 
-public final class SpecificationFactory {
+public final class SpecificationFactory<E> {
     /**
      * 模糊查询, 匹配对应字段
      */
-    public static Specification containsLike(String attribute, String value) {
+    public Specification<E> containsLike(String attribute, String value) {
         return (root, query, cb) -> cb.like(root.get(attribute), "%" + value + "%");
     }
 
@@ -26,7 +26,7 @@ public final class SpecificationFactory {
      * @param value
      * @return
      */
-    public static Specification equal(String attribute, Object value) {
+    public Specification<E> equal(String attribute, Object value) {
         return (root, query, cb) -> cb.equal(root.get(attribute), value);
     }
 
@@ -37,15 +37,15 @@ public final class SpecificationFactory {
      * @param max
      * @return
      */
-    public static Specification isBetween(String attribute, int min, int max) {
+    public Specification<E> isBetween(String attribute, int min, int max) {
         return (root, query, cb) -> cb.between(root.get(attribute), min, max);
     }
 
-    public static Specification isBetween(String attribute, double min, double max) {
+    public Specification<E> isBetween(String attribute, double min, double max) {
         return (root, query, cb) -> cb.between(root.get(attribute), min, max);
     }
 
-    public static Specification isBetween(String attribute, LocalDate min, LocalDate max) {
+    public Specification<E> isBetween(String attribute, LocalDate min, LocalDate max) {
         return (root, query, cb) -> cb.between(root.get(attribute), min, max);
     }
 
@@ -55,17 +55,17 @@ public final class SpecificationFactory {
      * @param c
      * @return
      */
-    public static Specification in(String attribute, Collection c) {
+    public Specification<E> in(String attribute, Collection c) {
         return (root, query, cb) -> root.get(attribute).in(c);
     }
 
     /**
      * 通过属性名构建大于等于value的查询条件
      */
-    public static Specification greaterThan(String attribute, BigDecimal value) {
+    public Specification<E> greaterThan(String attribute, BigDecimal value) {
         return (root, query, cb) -> cb.greaterThan(root.get(attribute), value);
     }
-    public static Specification greaterThan(String attribute, Long value) {
+    public Specification<E> greaterThan(String attribute, Long value) {
         return (root, query, cb) -> cb.greaterThan(root.get(attribute), value);
     }
 }

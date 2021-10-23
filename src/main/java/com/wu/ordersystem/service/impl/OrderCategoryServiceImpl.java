@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.List;
 
 /**
  * @author saltedfishzzZ
@@ -28,16 +28,19 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
 
     public Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return orderCategoryRepo.findAll(SpecificationFactory.equal("merchantId", id), pageable);
+        SpecificationFactory<OrderCategory> specificationFactory = new SpecificationFactory<>();
+        Specification<OrderCategory> specification = specificationFactory.equal("merchantId", id);
+        return orderCategoryRepo.findAll(specification, pageable);
     }
 
     public boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO) {
         OrderCategory entity = orderCategoryRepo.findById(id).get();
         BeanUtils.copyProperties(entity, orderCategoryDTO);
         OrderCategory orderCategory = orderCategoryRepo.save(entity);
-        if (Objects.isNull(orderCategory)) {
-            return Boolean.FALSE;
-        }
         return Boolean.TRUE;
+    }
+
+    public void batchDeleteByIdList(List<Long> idList) {
+        orderCategoryRepo.deleteAllByIdInBatch(idList);
     }
 }
