@@ -17,5 +17,7 @@ public interface OrderCategoryService {
 
     boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO);
 
+    void deleteById(Long id);
+
     void batchDeleteByIdList(List<Long> idList);
 }

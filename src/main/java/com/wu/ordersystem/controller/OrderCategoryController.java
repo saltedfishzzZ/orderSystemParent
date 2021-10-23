@@ -48,6 +48,13 @@ public class OrderCategoryController {
         return CommonResult.success();
     }
 
+    @DeleteMapping("/{id}")
+    public CommonResult delete(@PathVariable Long id) {
+        logger.info("{}-----请求删除单个类别接口", GenerateTimeUtil.generateNowTime());
+        orderCategoryService.deleteById(id);
+        return CommonResult.success();
+    }
+
     @DeleteMapping("/batch/delete")
     public CommonResult batchDelete(@RequestBody List<Long> idList) {
         logger.info("{}-----请求批量删除接口", GenerateTimeUtil.generateNowTime());

@@ -40,6 +40,12 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
         return Boolean.TRUE;
     }
 
+    public void deleteById(Long id) {
+        if (orderCategoryRepo.existsById(id)) {
+            orderCategoryRepo.deleteById(id);
+        }
+    }
+
     public void batchDeleteByIdList(List<Long> idList) {
         orderCategoryRepo.deleteAllByIdInBatch(idList);
     }
