@@ -38,7 +38,17 @@ public class OrderCategoryController {
                 .data("categoryList", orderCategoryService.listCategory(id, pageNo, pageSize));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
+    public CommonResult add(@RequestBody OrderCategoryDTO orderCategoryDTO) {
+        logger.info("{}-----请求添加类别接口", GenerateTimeUtil.generateNowTime());
+        boolean result = orderCategoryService.addCategory(orderCategoryDTO);
+        if (result) {
+            return CommonResult.success();
+        }
+        return CommonResult.failed();
+    }
+
+    @PutMapping("/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody OrderCategoryDTO orderCategoryDTO) {
         logger.info("{}-----请求更新类别接口", GenerateTimeUtil.generateNowTime());
         boolean result = orderCategoryService.updateById(id, orderCategoryDTO);

@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author saltedfishzzZ
@@ -26,6 +27,7 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
     @Autowired
     private OrderCategoryRepo orderCategoryRepo;
 
+    @Override
     public Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         SpecificationFactory<OrderCategory> specificationFactory = new SpecificationFactory<>();
@@ -33,6 +35,19 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
         return orderCategoryRepo.findAll(specification, pageable);
     }
 
+    @Override
+    public boolean addCategory(OrderCategoryDTO orderCategoryDTO) {
+        OrderCategory entity = new OrderCategory();
+        entity.setMerchantId(orderCategoryDTO.getMerchantId());
+        entity.setCategoryName(orderCategoryDTO.getName());
+        OrderCategory orderCategory = orderCategoryRepo.saveAndFlush(entity);
+        if (Objects.isNull(orderCategory.getId())) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    @Override
     public boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO) {
         OrderCategory entity = orderCategoryRepo.findById(id).get();
         BeanUtils.copyProperties(entity, orderCategoryDTO);
@@ -40,12 +55,14 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
         return Boolean.TRUE;
     }
 
+    @Override
     public void deleteById(Long id) {
         if (orderCategoryRepo.existsById(id)) {
             orderCategoryRepo.deleteById(id);
         }
     }
 
+    @Override
     public void batchDeleteByIdList(List<Long> idList) {
         orderCategoryRepo.deleteAllByIdInBatch(idList);
     }

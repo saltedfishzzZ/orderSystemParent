@@ -15,6 +15,8 @@ import java.util.List;
 public interface OrderCategoryService {
     Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize);
 
+    boolean addCategory(OrderCategoryDTO orderCategoryDTO);
+
     boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO);
 
     void deleteById(Long id);

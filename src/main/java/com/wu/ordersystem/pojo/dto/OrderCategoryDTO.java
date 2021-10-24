@@ -12,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 
 @Validated
 public class OrderCategoryDTO {
+    private Long merchantId;
+
     @NotBlank(message = "类别名不能为空")
     private String name;
 
@@ -21,5 +23,13 @@ public class OrderCategoryDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Long merchantId) {
+        this.merchantId = merchantId;
     }
 }
