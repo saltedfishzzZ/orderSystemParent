@@ -50,8 +50,8 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
     @Override
     public boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO) {
         OrderCategory entity = orderCategoryRepo.findById(id).get();
-        BeanUtils.copyProperties(entity, orderCategoryDTO);
-        OrderCategory orderCategory = orderCategoryRepo.save(entity);
+        entity.setCategoryName(orderCategoryDTO.getName());
+        orderCategoryRepo.save(entity);
         return Boolean.TRUE;
     }
 
