@@ -22,4 +22,12 @@ public interface OrderCategoryService {
     void deleteById(Long id);
 
     void batchDeleteByIdList(List<Long> idList);
+
+    Integer getMaxShowOrder(Long merchantId);
+
+    Integer getMinShowOrder(Long merchantId);
+
+    void upOrder(Long id);
+
+    void downOrder(Long id);
 }

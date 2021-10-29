@@ -71,4 +71,28 @@ public class OrderCategoryController {
         orderCategoryService.batchDeleteByIdList(idList);
         return CommonResult.success();
     }
+
+    @GetMapping("/getShowOrder")
+    public CommonResult getShowOrder(Long merchantId) {
+        logger.info("{}-----请求获取排序最大值和最小值接口", GenerateTimeUtil.generateNowTime());
+        Integer maxShowOrder = orderCategoryService.getMaxShowOrder(merchantId);
+        Integer minShowOrder = orderCategoryService.getMinShowOrder(merchantId);
+        return CommonResult.success()
+                .data("maxShowOrder", maxShowOrder)
+                .data("minShowOrder", minShowOrder);
+    }
+
+    @PostMapping("/upOrder/{id}")
+    public CommonResult upOrder(@PathVariable Long id) {
+        logger.info("{}-----请求上移顺序接口", GenerateTimeUtil.generateNowTime());
+        orderCategoryService.upOrder(id);
+        return CommonResult.success();
+    }
+
+    @PostMapping("/downOrder/{id}")
+    public CommonResult downOrder(@PathVariable Long id) {
+        logger.info("{}----请求下移顺序接口", GenerateTimeUtil.generateNowTime());
+        orderCategoryService.downOrder(id);
+        return CommonResult.success();
+    }
 }

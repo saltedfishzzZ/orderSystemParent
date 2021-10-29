@@ -2,6 +2,7 @@ package com.wu.ordersystem.utils;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Expression;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -22,6 +23,7 @@ public final class SpecificationFactory<E> {
 
     /**
      * 等于查询
+     *
      * @param attribute
      * @param value
      * @return
@@ -32,6 +34,7 @@ public final class SpecificationFactory<E> {
 
     /**
      * 范围查询
+     *
      * @param attribute
      * @param min
      * @param max
@@ -51,6 +54,7 @@ public final class SpecificationFactory<E> {
 
     /**
      * in 范围查询
+     *
      * @param attribute
      * @param c
      * @return
@@ -65,6 +69,7 @@ public final class SpecificationFactory<E> {
     public Specification<E> greaterThan(String attribute, BigDecimal value) {
         return (root, query, cb) -> cb.greaterThan(root.get(attribute), value);
     }
+
     public Specification<E> greaterThan(String attribute, Long value) {
         return (root, query, cb) -> cb.greaterThan(root.get(attribute), value);
     }

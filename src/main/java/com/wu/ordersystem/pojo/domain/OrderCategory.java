@@ -23,6 +23,8 @@ public class OrderCategory {
 
     private String categoryName;
 
+    private Integer showOrder;
+
     @CreationTimestamp
     private LocalDateTime createTime;
 
@@ -51,6 +53,14 @@ public class OrderCategory {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Integer getShowOrder() {
+        return showOrder;
+    }
+
+    public void setShowOrder(Integer showOrder) {
+        this.showOrder = showOrder;
     }
 
     public LocalDateTime getCreateTime() {
