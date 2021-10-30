@@ -1,8 +1,11 @@
 package com.wu.ordersystem.pojo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -17,6 +20,8 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "order_merchant")
+@DynamicUpdate
+@DynamicInsert
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class OrderMerchant {
     @Id
@@ -53,10 +58,12 @@ public class OrderMerchant {
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonIgnore
     private LocalDateTime createTime;
 
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonIgnore
     private LocalDateTime updateTime;
 
     public Long getId() {

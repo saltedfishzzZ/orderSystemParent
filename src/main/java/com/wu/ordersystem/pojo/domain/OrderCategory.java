@@ -1,6 +1,9 @@
 package com.wu.ordersystem.pojo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -14,6 +17,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_category")
+@DynamicUpdate
+@DynamicInsert
 public class OrderCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
