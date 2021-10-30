@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +41,7 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
         OrderCategory entity = new OrderCategory();
         entity.setMerchantId(orderCategoryDTO.getMerchantId());
         entity.setCategoryName(orderCategoryDTO.getName());
-        entity.setShowOrder(getMaxShowOrder(orderCategoryDTO.getMerchantId()));
+        entity.setShowOrder(getMaxShowOrder(orderCategoryDTO.getMerchantId()) + 1);
         OrderCategory orderCategory = orderCategoryRepo.saveAndFlush(entity);
         if (Objects.isNull(orderCategory.getId())) {
             return Boolean.FALSE;
