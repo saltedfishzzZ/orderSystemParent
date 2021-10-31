@@ -10,7 +10,7 @@ import java.util.Map;
  */
 
 public enum GoodStatusEnum {
-    TO_BE_SELL(0, "待上架"), ON_SELLING(2, "已上架"), NOT_ON_SELLING(3, "已下架");
+    TO_BE_SELL(0, "待上架"), ON_SELLING(1, "已上架"), NOT_ON_SELLING(2, "已下架");
 
     GoodStatusEnum(Integer code, String status) {
         this.code = code;
