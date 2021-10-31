@@ -1,14 +1,10 @@
 package com.wu.ordersystem.pojo.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wu.ordersystem.enums.GoodStatusEnum;
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -31,6 +27,12 @@ public class OrderGoodsVO {
 
     private String img;
 
+    private Integer status;
+
+    private String goodStatus;
+
+    private Integer stock;
+
     // 价格
     private BigDecimal price;
     // 餐盒费
@@ -44,6 +46,7 @@ public class OrderGoodsVO {
 
     public OrderGoodsVO(OrderGoods good) {
         BeanUtils.copyProperties(good, this);
+        this.goodStatus = GoodStatusEnum.getByCode(this.status).getStatus();
     }
 
     public Long getId() {
@@ -84,6 +87,30 @@ public class OrderGoodsVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getGoodStatus() {
+        return goodStatus;
+    }
+
+    public void setGoodStatus(String goodStatus) {
+        this.goodStatus = goodStatus;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getImg() {

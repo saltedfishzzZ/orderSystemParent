@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,18 @@ public class OrderGoodsController {
 
     @RequestMapping(value = "/addGood")
     public CommonResult addGood(@RequestBody OrderGoodAddDTO addDTO) {
+        return CommonResult.success();
+    }
+
+    @RequestMapping(value = "/editStatus")
+    public CommonResult editStatus(Long id,Integer status) {
+        logger.info("{}-----请求修改商品状态接口", GenerateTimeUtil.generateNowTime());
+
+        if (Objects.isNull(id) || Objects.isNull(status)) {
+            return CommonResult.failed();
+        }
+
+        orderGoodsService.editStatus(id, status);
         return CommonResult.success();
     }
 

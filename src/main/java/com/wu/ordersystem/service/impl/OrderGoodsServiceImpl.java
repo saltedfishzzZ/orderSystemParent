@@ -40,6 +40,13 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     }
 
     @Override
+    public void editStatus(Long id, Integer status) {
+        OrderGoods good = orderGoodsRepo.getById(id);
+        good.setStatus(status);
+        orderGoodsRepo.save(good);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
         // 删除商品表

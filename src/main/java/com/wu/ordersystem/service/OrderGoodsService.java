@@ -14,4 +14,6 @@ public interface OrderGoodsService {
     Page<OrderGoods> listGoods(Long merchantId, Integer pageNo, Integer pageSize);
 
     void deleteById(Long id);
+
+    void editStatus(Long id, Integer status);
 }

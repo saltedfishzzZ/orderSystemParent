@@ -31,6 +31,12 @@ public class OrderGoods {
 
     private String name;
 
+    // 商品状态 可见GoodStatusEnum
+    private Integer status;
+
+    // 商品库存 -1表示不限量
+    private Integer stock;
+
     private String img;
 
     // 价格
@@ -79,6 +85,22 @@ public class OrderGoods {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getImg() {
