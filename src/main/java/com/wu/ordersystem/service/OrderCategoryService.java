@@ -13,6 +13,8 @@ import java.util.List;
  */
 
 public interface OrderCategoryService {
+    List<OrderCategory> listCategoryByIds(List<Long> idList);
+
     Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize);
 
     boolean addCategory(OrderCategoryDTO orderCategoryDTO);

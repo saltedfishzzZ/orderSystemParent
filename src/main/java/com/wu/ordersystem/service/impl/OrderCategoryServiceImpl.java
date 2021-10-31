@@ -29,6 +29,11 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
     private OrderCategoryRepo orderCategoryRepo;
 
     @Override
+    public List<OrderCategory> listCategoryByIds(List<Long> idList) {
+        return orderCategoryRepo.findAllById(idList);
+    }
+
+    @Override
     public Page<OrderCategory> listCategory(Long id, Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(Sort.Direction.ASC, "showOrder"));
         SpecificationFactory<OrderCategory> specificationFactory = new SpecificationFactory<>();
