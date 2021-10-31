@@ -1,5 +1,8 @@
 package com.wu.ordersystem.service;
 
+import com.wu.ordersystem.pojo.domain.OrderGoods;
+import org.springframework.data.domain.Page;
+
 /**
  * @author saltedfishzzZ
  * @date 2021-10-27
@@ -7,4 +10,6 @@ package com.wu.ordersystem.service;
  */
 
 public interface OrderGoodsService {
+
+    Page<OrderGoods> listGoods(Long merchantId, Integer pageNo, Integer pageSize);
 }

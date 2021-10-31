@@ -1,9 +1,13 @@
 package com.wu.ordersystem.pojo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -14,6 +18,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_goods")
+@DynamicUpdate
+@DynamicInsert
 public class OrderGoods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +33,21 @@ public class OrderGoods {
 
     private String img;
 
+    // 价格
+    private BigDecimal price;
+    // 餐盒费
+    private BigDecimal packingFee;
+
     @CreationTimestamp
     private LocalDateTime createTime;
 
     @UpdateTimestamp
+    @JsonIgnore
     private LocalDateTime updateTime;
+
+    @OneToOne(targetEntity = OrderGoodsDetail.class)
+    @JoinColumn(name = "id", referencedColumnName = "good_id")
+    private OrderGoodsDetail goodsDetail = new OrderGoodsDetail();
 
     public Long getId() {
         return id;
@@ -73,6 +89,22 @@ public class OrderGoods {
         this.img = img;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getPackingFee() {
+        return packingFee;
+    }
+
+    public void setPackingFee(BigDecimal packingFee) {
+        this.packingFee = packingFee;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -87,5 +119,13 @@ public class OrderGoods {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public OrderGoodsDetail getGoodsDetail() {
+        return goodsDetail;
+    }
+
+    public void setGoodsDetail(OrderGoodsDetail goodsDetail) {
+        this.goodsDetail = goodsDetail;
     }
 }

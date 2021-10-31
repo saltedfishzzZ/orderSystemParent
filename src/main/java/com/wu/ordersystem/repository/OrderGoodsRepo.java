@@ -2,6 +2,7 @@ package com.wu.ordersystem.repository;
 
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface OrderGoodsRepo extends JpaRepository<OrderGoods, Long> {
+public interface OrderGoodsRepo extends JpaRepository<OrderGoods, Long>, JpaSpecificationExecutor<OrderGoods> {
 }
