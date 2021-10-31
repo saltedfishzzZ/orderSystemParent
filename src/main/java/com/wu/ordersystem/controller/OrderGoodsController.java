@@ -34,4 +34,10 @@ public class OrderGoodsController {
         Page<OrderGoods> goods = orderGoodsService.listGoods(dto.getMerchantId(), dto.getPageNo(), dto.getPageSize());
         return CommonResult.success().data("goods", goods);
     }
+
+    @RequestMapping(value = "/deleteById")
+    public CommonResult deleteById(Long id) {
+        orderGoodsService.deleteById(id);
+        return CommonResult.success();
+    }
 }
