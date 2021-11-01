@@ -2,6 +2,7 @@ package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
 import com.wu.ordersystem.pojo.dto.OrderCategoryDTO;
+import com.wu.ordersystem.pojo.vo.OrderCategoryNameVO;
 import com.wu.ordersystem.service.OrderCategoryService;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;
@@ -9,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author saltedfishzzZ
@@ -36,6 +36,20 @@ public class OrderCategoryController {
         }
         return CommonResult.success()
                 .data("categoryList", orderCategoryService.listCategory(id, pageNo, pageSize));
+    }
+
+    @RequestMapping(value = "/getAllCategoryName", method = RequestMethod.POST)
+    public CommonResult getAllCategoryName(Long merchantId) {
+        logger.info("{}-----请求获取全部类别接口", GenerateTimeUtil.generateNowTime());
+
+        List<OrderCategoryNameVO> list = new ArrayList<>();
+
+        orderCategoryService.findAllCategory(merchantId)
+                .forEach(orderCategory ->
+                        list.add(new OrderCategoryNameVO(orderCategory.getId(), orderCategory.getCategoryName())));
+
+        return CommonResult.success()
+                .data("allCategoryName", list);
     }
 
     @PostMapping

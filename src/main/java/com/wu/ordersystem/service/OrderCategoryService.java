@@ -32,4 +32,6 @@ public interface OrderCategoryService {
     void upOrder(Long id);
 
     void downOrder(Long id);
+
+    List<OrderCategory> findAllCategory(Long merchantId);
 }

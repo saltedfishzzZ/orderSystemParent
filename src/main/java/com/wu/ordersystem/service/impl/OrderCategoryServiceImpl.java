@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author saltedfishzzZ
@@ -122,5 +123,12 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
         list.add(orderCategory);
 
         orderCategoryRepo.saveAll(list);
+    }
+
+    @Override
+    public List<OrderCategory> findAllCategory(Long merchantId) {
+        SpecificationFactory<OrderCategory> specificationFactory = new SpecificationFactory<>();
+        Specification<OrderCategory> spec = specificationFactory.equal("merchantId", merchantId);
+        return orderCategoryRepo.findAll(spec);
     }
 }
