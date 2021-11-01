@@ -2,7 +2,7 @@ package com.wu.ordersystem.service.impl;
 
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
-import com.wu.ordersystem.repository.OrderCategoryRepo;
+import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import com.wu.ordersystem.repository.OrderGoodsDetailRepo;
 import com.wu.ordersystem.repository.OrderGoodsRepo;
 import com.wu.ordersystem.service.OrderGoodsService;
@@ -15,7 +15,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author saltedfishzzZ
@@ -32,11 +35,24 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     OrderGoodsDetailRepo orderGoodsDetailRepo;
 
     @Override
-    public Page<OrderGoods> listGoods(Long merchantId, Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+    public Page<OrderGoods> listGoods(OrderGoodPageDTO dto) {
+        Pageable pageable = PageRequest.of(dto.getPageNo() - 1, dto.getPageSize());
         SpecificationFactory<OrderGoods> factory = new SpecificationFactory<>();
-        Specification<OrderGoods> specification = factory.equal("merchantId", merchantId);
-        return orderGoodsRepo.findAll(specification, pageable);
+        Specification<OrderGoods> specification = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("merchantId").as(Long.class), dto.getMerchantId()));
+            if (Objects.nonNull(dto.getName())) {
+                predicates.add(cb.like(root.get("name").as(String.class), "%" + dto.getName() + "%"));
+            }
+            if (Objects.nonNull(dto.getCategoryId())) {
+                predicates.add(cb.equal(root.get("categoryId").as(Long.class), dto.getCategoryId()));
+            }
+            if (Objects.nonNull(dto.getStatus())) {
+                predicates.add(cb.equal(root.get("status").as(Integer.class), dto.getStatus()));
+            }
+            return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
+        };
+        return orderGoodsRepo.findAll(Specification.where(specification), pageable);
     }
 
     @Override

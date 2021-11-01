@@ -16,6 +16,12 @@ public class OrderGoodPageDTO {
     @NotNull(message = "商户id不能为空")
     private Long merchantId;
 
+    private String name;
+
+    private Long categoryId;
+
+    private Integer status;
+
     private Integer pageNo;
 
     private Integer pageSize;
@@ -26,6 +32,30 @@ public class OrderGoodPageDTO {
 
     public void setMerchantId(Long merchantId) {
         this.merchantId = merchantId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Integer getPageNo() {

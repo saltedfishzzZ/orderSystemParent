@@ -1,10 +1,12 @@
 package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
+import com.wu.ordersystem.enums.GoodStatusEnum;
 import com.wu.ordersystem.pojo.domain.OrderCategory;
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
+import com.wu.ordersystem.pojo.vo.OrderGoodsStatusVO;
 import com.wu.ordersystem.pojo.vo.OrderGoodsVO;
 import com.wu.ordersystem.service.OrderCategoryService;
 import com.wu.ordersystem.service.OrderGoodsService;
@@ -16,10 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,7 +45,7 @@ public class OrderGoodsController {
         if (Objects.isNull(dto.getPageSize()) || dto.getPageSize() < 1) {
             dto.setPageSize(10);
         }
-        Page<OrderGoods> goods = orderGoodsService.listGoods(dto.getMerchantId(), dto.getPageNo(), dto.getPageSize());
+        Page<OrderGoods> goods = orderGoodsService.listGoods(dto);
         // 所有类别id集合
         List<Long> categoryIdList = goods.getContent().stream().map(OrderGoods::getCategoryId).collect(Collectors.toList());
         // 查询所有的类别
@@ -66,6 +65,20 @@ public class OrderGoodsController {
             return goodsVO;
         });
         return CommonResult.success().data("goods", goodVOs);
+    }
+
+    @RequestMapping(value = "/getAllStatus")
+    public CommonResult getAllStatus() {
+        logger.info("{}-----请求获取所有商品状态接口", GenerateTimeUtil.generateNowTime());
+
+        List<OrderGoodsStatusVO> list = new ArrayList<>();
+
+        for (GoodStatusEnum value : GoodStatusEnum.values()) {
+            list.add(new OrderGoodsStatusVO(value.getCode(), value.getStatus()));
+        }
+
+        return CommonResult.success()
+                .data("allStatus", list);
     }
 
     @RequestMapping(value = "/addGood")
