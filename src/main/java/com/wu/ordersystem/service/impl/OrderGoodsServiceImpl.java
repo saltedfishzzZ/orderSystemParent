@@ -68,10 +68,17 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         // 删除商品表
         orderGoodsRepo.deleteById(id);
 
-        // 先查后删 - 删除商品详情表
-        SpecificationFactory<OrderGoodsDetail> factory = new SpecificationFactory<>();
-        Specification<OrderGoodsDetail> specification = factory.equal("goodId", id);
-        List<OrderGoodsDetail> goodDetails = orderGoodsDetailRepo.findAll(specification);
-        orderGoodsDetailRepo.deleteAll(goodDetails);
+        // 删除商品详情表
+        orderGoodsDetailRepo.deleteAllByGoodId(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void batchDelete(List<Long> idList) {
+        // 删除商品表
+        orderGoodsRepo.deleteAllById(idList);
+
+        // 删除商品详情表
+        orderGoodsDetailRepo.deleteAllByGoodIdIn(idList);
     }
 }

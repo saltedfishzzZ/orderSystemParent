@@ -104,4 +104,11 @@ public class OrderGoodsController {
         orderGoodsService.deleteById(id);
         return CommonResult.success();
     }
+
+    @RequestMapping(value = "/batchDelete")
+    public CommonResult batchDelete(@RequestBody List<Long> idList) {
+        logger.info("{}-----请求批量删除商品接口", GenerateTimeUtil.generateNowTime());
+        orderGoodsService.batchDelete(idList);
+        return CommonResult.success();
+    }
 }
