@@ -29,6 +29,8 @@ public class OrderGoods {
 
     private Long categoryId;
 
+    private Long goodDetailId;
+
     private String name;
 
     // 商品状态 可见GoodStatusEnum
@@ -51,8 +53,8 @@ public class OrderGoods {
     @JsonIgnore
     private LocalDateTime updateTime;
 
-    @OneToOne(targetEntity = OrderGoodsDetail.class)
-    @JoinColumn(name = "id", referencedColumnName = "good_id")
+    @OneToOne
+    @JoinColumn(name = "goodDetailId", referencedColumnName = "id", insertable = false, updatable = false)
     private OrderGoodsDetail goodsDetail = new OrderGoodsDetail();
 
     public Long getId() {
@@ -77,6 +79,14 @@ public class OrderGoods {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Long getGoodDetailId() {
+        return goodDetailId;
+    }
+
+    public void setGoodDetailId(Long goodDetailId) {
+        this.goodDetailId = goodDetailId;
     }
 
     public String getName() {

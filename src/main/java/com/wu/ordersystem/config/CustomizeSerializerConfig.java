@@ -35,7 +35,6 @@ public class CustomizeSerializerConfig {
 
     @Value("${spring.jackson.time-format}")
     private String timePattern;
-//    private static final String timePattern = "HH:mm:ss";
 
     @Bean
     public LocalDateTimeSerializer localDateTimeSerializer() {

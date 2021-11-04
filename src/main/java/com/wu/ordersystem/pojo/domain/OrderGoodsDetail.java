@@ -27,9 +27,6 @@ public class OrderGoodsDetail {
     @JsonIgnore
     private Long id;
 
-    @JsonIgnore
-    private Long goodId;
-
     // 主料
     private String mainElements;
 
@@ -59,14 +56,6 @@ public class OrderGoodsDetail {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getGoodId() {
-        return goodId;
-    }
-
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
     }
 
     public String getMainElements() {
