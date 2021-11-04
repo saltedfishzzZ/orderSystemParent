@@ -19,6 +19,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author saltedfishzzZ
@@ -69,7 +70,8 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         orderGoodsRepo.deleteById(id);
 
         // 删除商品详情表
-        orderGoodsDetailRepo.deleteAllByGoodId(id);
+        Long goodDetailId = orderGoodsRepo.findById(id).get().getGoodDetailId();
+        orderGoodsDetailRepo.deleteById(goodDetailId);
     }
 
     @Override
@@ -79,6 +81,8 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         orderGoodsRepo.deleteAllById(idList);
 
         // 删除商品详情表
-        orderGoodsDetailRepo.deleteAllByGoodIdIn(idList);
+        orderGoodsDetailRepo.deleteAllById(orderGoodsRepo.findAllById(idList).stream()
+                .map(OrderGoods::getGoodDetailId)
+                .collect(Collectors.toList()));
     }
 }

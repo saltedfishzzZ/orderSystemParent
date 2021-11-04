@@ -15,7 +15,4 @@ import java.util.List;
 
 @Repository
 public interface OrderGoodsDetailRepo extends JpaRepository<OrderGoodsDetail, Long>, JpaSpecificationExecutor<OrderGoodsDetail> {
-    void deleteAllByGoodId(Long goodId);
-
-    void deleteAllByGoodIdIn(List<Long> idList);
 }
