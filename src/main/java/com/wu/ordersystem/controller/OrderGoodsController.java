@@ -5,6 +5,7 @@ import com.wu.ordersystem.enums.GoodStatusEnum;
 import com.wu.ordersystem.pojo.domain.OrderCategory;
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
+import com.wu.ordersystem.pojo.dto.OrderGoodEditDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import com.wu.ordersystem.pojo.vo.OrderGoodsStatusVO;
 import com.wu.ordersystem.pojo.vo.OrderGoodsVO;
@@ -97,6 +98,15 @@ public class OrderGoodsController {
         if (!result) {
             return CommonResult.failed();
         }
+        return CommonResult.success();
+    }
+
+    @RequestMapping(value = "/editGood")
+    public CommonResult editGood(@Valid @RequestBody OrderGoodEditDTO editDTO) {
+        logger.info("{}-----请求编辑商品接口", GenerateTimeUtil.generateNowTime());
+
+        orderGoodsService.editGood(editDTO);
+
         return CommonResult.success();
     }
 

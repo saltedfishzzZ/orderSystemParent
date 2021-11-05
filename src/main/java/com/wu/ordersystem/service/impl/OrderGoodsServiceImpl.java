@@ -4,6 +4,7 @@ import com.wu.ordersystem.enums.GoodStatusEnum;
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
 import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
+import com.wu.ordersystem.pojo.dto.OrderGoodEditDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import com.wu.ordersystem.repository.OrderGoodsDetailRepo;
 import com.wu.ordersystem.repository.OrderGoodsRepo;
@@ -61,7 +62,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
     @Override
     public OrderGoods getGood(Long id) {
-        return orderGoodsRepo.findById(id).orElse(new OrderGoods());
+        return orderGoodsRepo.getById(id);
     }
 
     @Override
@@ -90,6 +91,23 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void editGood(OrderGoodEditDTO editDTO) {
+        OrderGoods good = orderGoodsRepo.getById(editDTO.getId());
+
+        // 修改商品详情表
+        Long goodDetailId = good.getGoodDetailId();
+        OrderGoodsDetail goodsDetail = orderGoodsDetailRepo.getById(goodDetailId);
+        goodsDetail.setId(goodDetailId);
+        BeanUtils.copyProperties(editDTO.getGoodDetail(), goodsDetail);
+        orderGoodsDetailRepo.saveAndFlush(goodsDetail);
+
+        // 修改商品表
+        BeanUtils.copyProperties(editDTO, good);
+        orderGoodsRepo.saveAndFlush(good);
+    }
+
+    @Override
     public void editStatus(Long id, Integer status) {
         OrderGoods good = orderGoodsRepo.getById(id);
         good.setStatus(status);
@@ -103,7 +121,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         orderGoodsRepo.deleteById(id);
 
         // 删除商品详情表
-        Long goodDetailId = orderGoodsRepo.findById(id).get().getGoodDetailId();
+        Long goodDetailId = orderGoodsRepo.getById(id).getGoodDetailId();
         orderGoodsDetailRepo.deleteById(goodDetailId);
     }
 

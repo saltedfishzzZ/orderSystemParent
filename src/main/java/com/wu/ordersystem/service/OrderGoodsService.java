@@ -2,6 +2,7 @@ package com.wu.ordersystem.service;
 
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
+import com.wu.ordersystem.pojo.dto.OrderGoodEditDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import org.springframework.data.domain.Page;
 
@@ -26,4 +27,6 @@ public interface OrderGoodsService {
     void batchDelete(List<Long> idList);
 
     OrderGoods getGood(Long id);
+
+    void editGood(OrderGoodEditDTO editDTO);
 }

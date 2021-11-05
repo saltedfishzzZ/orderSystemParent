@@ -57,7 +57,7 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
 
     @Override
     public boolean updateById(Long id, OrderCategoryDTO orderCategoryDTO) {
-        OrderCategory entity = orderCategoryRepo.findById(id).get();
+        OrderCategory entity = orderCategoryRepo.getById(id);
         entity.setCategoryName(orderCategoryDTO.getName());
         orderCategoryRepo.save(entity);
         return Boolean.TRUE;
@@ -88,7 +88,7 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
     @Override
     public void upOrder(Long id) {
         List<OrderCategory> list = new ArrayList<>();
-        OrderCategory orderCategory = orderCategoryRepo.findById(id).get();
+        OrderCategory orderCategory = orderCategoryRepo.getById(id);
 
         Integer oldOrder = orderCategory.getShowOrder();
 
@@ -108,7 +108,7 @@ public class OrderCategoryServiceImpl implements OrderCategoryService {
     @Override
     public void downOrder(Long id) {
         List<OrderCategory> list = new ArrayList<>();
-        OrderCategory orderCategory = orderCategoryRepo.findById(id).get();
+        OrderCategory orderCategory = orderCategoryRepo.getById(id);
 
         Integer oldOrder = orderCategory.getShowOrder();
 
