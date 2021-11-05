@@ -82,8 +82,17 @@ public class OrderGoodsController {
                 .data("allStatus", list);
     }
 
+    @RequestMapping(value = "/getGood")
+    public CommonResult getGood(Long id) {
+        logger.info("{}-----请求获取商品接口", GenerateTimeUtil.generateNowTime());
+        OrderGoods good = orderGoodsService.getGood(id);
+        return CommonResult.success()
+                .data("good", good);
+    }
+
     @RequestMapping(value = "/addGood")
     public CommonResult addGood(@Valid @RequestBody OrderGoodAddDTO addDTO) {
+        logger.info("{}-----请求添加商品接口", GenerateTimeUtil.generateNowTime());
         boolean result = orderGoodsService.addGood(addDTO);
         if (!result) {
             return CommonResult.failed();

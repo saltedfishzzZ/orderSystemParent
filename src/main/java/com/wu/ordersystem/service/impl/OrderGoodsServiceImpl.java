@@ -60,6 +60,11 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     }
 
     @Override
+    public OrderGoods getGood(Long id) {
+        return orderGoodsRepo.findById(id).orElse(new OrderGoods());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean addGood(OrderGoodAddDTO addDTO) {
         // 添加商品详情表

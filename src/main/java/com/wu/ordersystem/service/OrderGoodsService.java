@@ -24,4 +24,6 @@ public interface OrderGoodsService {
     void editStatus(Long id, Integer status);
 
     void batchDelete(List<Long> idList);
+
+    OrderGoods getGood(Long id);
 }
