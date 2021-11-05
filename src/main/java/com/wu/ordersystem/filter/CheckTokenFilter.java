@@ -67,7 +67,7 @@ public class CheckTokenFilter implements Filter {
         // 进行token存在校验
         String token = request.getHeader("token");
         if (Objects.isNull(token)) {
-            CommonResult commonResult = CommonResult.unauth().message("header中不存在token");
+            CommonResult commonResult = CommonResult.unauth().message("未登录, 请先登录!");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));
             response.flushBuffer();

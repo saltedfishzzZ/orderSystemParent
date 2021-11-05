@@ -1,7 +1,6 @@
 package com.wu.ordersystem.pojo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -34,7 +33,7 @@ public class OrderGoodsDetail {
     private String extraElements;
 
     // 描述
-    private String desc;
+    private String description;
 
     // 份量
     private String weight;
@@ -74,12 +73,12 @@ public class OrderGoodsDetail {
         this.extraElements = extraElements;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getWeight() {

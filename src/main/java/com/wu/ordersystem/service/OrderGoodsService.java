@@ -1,6 +1,7 @@
 package com.wu.ordersystem.service;
 
 import com.wu.ordersystem.pojo.domain.OrderGoods;
+import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import org.springframework.data.domain.Page;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public interface OrderGoodsService {
 
     Page<OrderGoods> listGoods(OrderGoodPageDTO dto);
+
+    boolean addGood(OrderGoodAddDTO addDTO);
 
     void deleteById(Long id);
 

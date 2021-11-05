@@ -12,10 +12,10 @@ spring:
       pool-name: mysql-pool
       minimum-idle: 5
       maximum-pool-size: 20
-      max-lifetime: 60000
+      max-lifetime: 100000
       connection-test-query: select now()
       keepalive-time: 30000
-      idle-timeout: 3000
+      idle-timeout: 60000
   jpa:
     show-sql: true
     database: mysql
@@ -26,7 +26,6 @@ spring:
     time-format: HH:mm:ss
     date-format: yyyy-MM-dd
 
-
   redis:
     lettuce:
       pool:
@@ -36,6 +35,16 @@ spring:
         max-wait: 50000
     host: localhost
     port: 6379
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: debug
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: trace
 
 order-system:
   white-list-url:

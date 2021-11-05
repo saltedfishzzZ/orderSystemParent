@@ -1,12 +1,15 @@
 package com.wu.ordersystem.service.impl;
 
+import com.wu.ordersystem.enums.GoodStatusEnum;
 import com.wu.ordersystem.pojo.domain.OrderGoods;
 import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
+import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
 import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
 import com.wu.ordersystem.repository.OrderGoodsDetailRepo;
 import com.wu.ordersystem.repository.OrderGoodsRepo;
 import com.wu.ordersystem.service.OrderGoodsService;
 import com.wu.ordersystem.utils.SpecificationFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,6 +57,31 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
             return query.where(predicates.toArray(new Predicate[predicates.size()])).getRestriction();
         };
         return orderGoodsRepo.findAll(Specification.where(specification), pageable);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addGood(OrderGoodAddDTO addDTO) {
+        // 添加商品详情表
+        OrderGoodsDetail detail = new OrderGoodsDetail();
+        BeanUtils.copyProperties(addDTO.getGoodDetail(), detail);
+        OrderGoodsDetail orderGoodDetail = orderGoodsDetailRepo.saveAndFlush(detail);
+
+        if (Objects.isNull(orderGoodDetail.getId())) {
+            return Boolean.FALSE;
+        }
+
+        OrderGoods good = new OrderGoods();
+        BeanUtils.copyProperties(addDTO, good);
+        // 新添加商品状态都为未上架
+        good.setStatus(GoodStatusEnum.TO_BE_SELL.getCode());
+        good.setGoodDetailId(detail.getId());
+        good.setGoodsDetail(null);
+        OrderGoods orderGoods = orderGoodsRepo.save(good);
+        if (Objects.isNull(orderGoods.getId())) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
     @Override

@@ -83,6 +83,10 @@ public class OrderGoodsController {
 
     @RequestMapping(value = "/addGood")
     public CommonResult addGood(@RequestBody OrderGoodAddDTO addDTO) {
+        boolean result = orderGoodsService.addGood(addDTO);
+        if (!result) {
+            return CommonResult.failed();
+        }
         return CommonResult.success();
     }
 
@@ -104,6 +108,7 @@ public class OrderGoodsController {
         orderGoodsService.deleteById(id);
         return CommonResult.success();
     }
+
 
     @RequestMapping(value = "/batchDelete")
     public CommonResult batchDelete(@RequestBody List<Long> idList) {

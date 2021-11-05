@@ -1,5 +1,7 @@
 package com.wu.ordersystem.pojo.dto;
 
+import org.springframework.validation.annotation.Validated;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -10,6 +12,7 @@ import java.math.BigDecimal;
  * @description
  */
 
+@Validated
 public class OrderGoodAddDTO {
 
     @NotNull(message = "商户id不能为空")
@@ -27,16 +30,60 @@ public class OrderGoodAddDTO {
     @NotNull(message = "打包费不能为空")
     private BigDecimal packingFee;
 
-    @NotEmpty(message = "主料不能为空")
-    private String mainElements;
+    private GoodDetail goodDetail;
 
-    private String extraElements;
+    public static class GoodDetail {
+        @NotEmpty(message = "主料不能为空")
+        private String mainElements;
 
-    private String desc;
+        private String extraElements;
 
-    private String weight;
+        private String description;
 
-    private String taste;
+        private String weight;
+
+        private String taste;
+
+        public String getMainElements() {
+            return mainElements;
+        }
+
+        public void setMainElements(String mainElements) {
+            this.mainElements = mainElements;
+        }
+
+        public String getExtraElements() {
+            return extraElements;
+        }
+
+        public void setExtraElements(String extraElements) {
+            this.extraElements = extraElements;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getWeight() {
+            return weight;
+        }
+
+        public void setWeight(String weight) {
+            this.weight = weight;
+        }
+
+        public String getTaste() {
+            return taste;
+        }
+
+        public void setTaste(String taste) {
+            this.taste = taste;
+        }
+    }
 
     public Long getMerchantId() {
         return merchantId;
@@ -78,43 +125,11 @@ public class OrderGoodAddDTO {
         this.packingFee = packingFee;
     }
 
-    public String getMainElements() {
-        return mainElements;
+    public GoodDetail getGoodDetail() {
+        return goodDetail;
     }
 
-    public void setMainElements(String mainElements) {
-        this.mainElements = mainElements;
-    }
-
-    public String getExtraElements() {
-        return extraElements;
-    }
-
-    public void setExtraElements(String extraElements) {
-        this.extraElements = extraElements;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getTaste() {
-        return taste;
-    }
-
-    public void setTaste(String taste) {
-        this.taste = taste;
+    public void setGoodDetail(GoodDetail goodDetail) {
+        this.goodDetail = goodDetail;
     }
 }
