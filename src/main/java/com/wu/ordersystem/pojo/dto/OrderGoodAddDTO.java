@@ -30,6 +30,9 @@ public class OrderGoodAddDTO {
     @NotNull(message = "打包费不能为空")
     private BigDecimal packingFee;
 
+    @NotNull(message = "库存不能为空")
+    private Integer stock;
+
     private GoodDetail goodDetail;
 
     public static class GoodDetail {
@@ -123,6 +126,14 @@ public class OrderGoodAddDTO {
 
     public void setPackingFee(BigDecimal packingFee) {
         this.packingFee = packingFee;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public GoodDetail getGoodDetail() {
