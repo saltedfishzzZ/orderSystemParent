@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class OrderGoodsController {
     OrderCategoryService orderCategoryService;
 
     @RequestMapping(value = "/list")
-    public CommonResult listGoods(@Validated @RequestBody OrderGoodPageDTO dto) {
+    public CommonResult listGoods(@Valid @RequestBody OrderGoodPageDTO dto) {
         logger.info("{}-----请求商品列表接口", GenerateTimeUtil.generateNowTime());
         if (Objects.isNull(dto.getPageNo()) || dto.getPageNo() < 1) {
             dto.setPageNo(1);
@@ -82,7 +83,7 @@ public class OrderGoodsController {
     }
 
     @RequestMapping(value = "/addGood")
-    public CommonResult addGood(@RequestBody OrderGoodAddDTO addDTO) {
+    public CommonResult addGood(@Valid @RequestBody OrderGoodAddDTO addDTO) {
         boolean result = orderGoodsService.addGood(addDTO);
         if (!result) {
             return CommonResult.failed();

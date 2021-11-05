@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -53,7 +54,7 @@ public class OrderCategoryController {
     }
 
     @PostMapping
-    public CommonResult add(@RequestBody OrderCategoryDTO orderCategoryDTO) {
+    public CommonResult add(@Valid @RequestBody OrderCategoryDTO orderCategoryDTO) {
         logger.info("{}-----请求添加类别接口", GenerateTimeUtil.generateNowTime());
         boolean result = orderCategoryService.addCategory(orderCategoryDTO);
         if (result) {
@@ -63,7 +64,7 @@ public class OrderCategoryController {
     }
 
     @PutMapping("/{id}")
-    public CommonResult update(@PathVariable Long id, @RequestBody OrderCategoryDTO orderCategoryDTO) {
+    public CommonResult update(@PathVariable Long id, @Valid @RequestBody OrderCategoryDTO orderCategoryDTO) {
         logger.info("{}-----请求更新类别接口", GenerateTimeUtil.generateNowTime());
         boolean result = orderCategoryService.updateById(id, orderCategoryDTO);
         if (!result) {
