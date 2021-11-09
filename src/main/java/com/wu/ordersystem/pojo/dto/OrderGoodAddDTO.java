@@ -33,7 +33,7 @@ public class OrderGoodAddDTO {
     @NotNull(message = "库存不能为空")
     private Integer stock;
 
-    private GoodDetail goodDetail;
+    private GoodDetail goodsDetail;
 
     public static class GoodDetail {
         @NotEmpty(message = "主料不能为空")
@@ -136,11 +136,11 @@ public class OrderGoodAddDTO {
         this.stock = stock;
     }
 
-    public GoodDetail getGoodDetail() {
-        return goodDetail;
+    public GoodDetail getGoodsDetail() {
+        return goodsDetail;
     }
 
-    public void setGoodDetail(GoodDetail goodDetail) {
-        this.goodDetail = goodDetail;
+    public void setGoodsDetail(GoodDetail goodsDetail) {
+        this.goodsDetail = goodsDetail;
     }
 }

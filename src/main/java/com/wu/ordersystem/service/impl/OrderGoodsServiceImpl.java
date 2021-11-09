@@ -70,7 +70,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     public boolean addGood(OrderGoodAddDTO addDTO) {
         // 添加商品详情表
         OrderGoodsDetail detail = new OrderGoodsDetail();
-        BeanUtils.copyProperties(addDTO.getGoodDetail(), detail);
+        BeanUtils.copyProperties(addDTO.getGoodsDetail(), detail);
         OrderGoodsDetail orderGoodDetail = orderGoodsDetailRepo.saveAndFlush(detail);
 
         if (Objects.isNull(orderGoodDetail.getId())) {
@@ -99,7 +99,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         Long goodDetailId = good.getGoodDetailId();
         OrderGoodsDetail goodsDetail = orderGoodsDetailRepo.getById(goodDetailId);
         goodsDetail.setId(goodDetailId);
-        BeanUtils.copyProperties(editDTO.getGoodDetail(), goodsDetail);
+        BeanUtils.copyProperties(editDTO.getGoodsDetail(), goodsDetail);
         orderGoodsDetailRepo.saveAndFlush(goodsDetail);
 
         // 修改商品表
@@ -117,23 +117,23 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
+        Long goodDetailId = orderGoodsRepo.getById(id).getGoodDetailId();
+
         // 删除商品表
         orderGoodsRepo.deleteById(id);
-
         // 删除商品详情表
-        Long goodDetailId = orderGoodsRepo.getById(id).getGoodDetailId();
         orderGoodsDetailRepo.deleteById(goodDetailId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void batchDelete(List<Long> idList) {
+        List<Long> goodDetailIds = orderGoodsRepo.findAllById(idList).stream()
+                .map(OrderGoods::getGoodDetailId)
+                .collect(Collectors.toList());
         // 删除商品表
         orderGoodsRepo.deleteAllById(idList);
-
         // 删除商品详情表
-        orderGoodsDetailRepo.deleteAllById(orderGoodsRepo.findAllById(idList).stream()
-                .map(OrderGoods::getGoodDetailId)
-                .collect(Collectors.toList()));
+        orderGoodsDetailRepo.deleteAllById(goodDetailIds);
     }
 }

@@ -2,6 +2,7 @@ package com.wu.ordersystem.pojo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 @Table(name = "order_goods")
 @DynamicUpdate
 @DynamicInsert
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class OrderGoods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
