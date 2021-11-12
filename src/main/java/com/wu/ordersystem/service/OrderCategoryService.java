@@ -1,7 +1,7 @@
 package com.wu.ordersystem.service;
 
-import com.wu.ordersystem.pojo.domain.OrderCategory;
-import com.wu.ordersystem.pojo.dto.OrderCategoryDTO;
+import com.wu.ordersystem.pojo.domain.resource.OrderCategory;
+import com.wu.ordersystem.pojo.dto.resource.OrderCategoryDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

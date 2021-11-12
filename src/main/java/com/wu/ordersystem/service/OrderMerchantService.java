@@ -1,6 +1,6 @@
 package com.wu.ordersystem.service;
 
-import com.wu.ordersystem.pojo.domain.OrderMerchant;
+import com.wu.ordersystem.pojo.domain.resource.OrderMerchant;
 
 /**
  * @author wujianxin

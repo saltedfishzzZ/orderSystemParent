@@ -1,8 +1,8 @@
 package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
-import com.wu.ordersystem.pojo.domain.OrderMerchant;
-import com.wu.ordersystem.pojo.dto.OrderMerchantDTO;
+import com.wu.ordersystem.pojo.domain.resource.OrderMerchant;
+import com.wu.ordersystem.pojo.dto.resource.OrderMerchantDTO;
 import com.wu.ordersystem.service.OrderMerchantService;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;

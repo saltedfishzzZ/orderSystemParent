@@ -2,13 +2,13 @@ package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
 import com.wu.ordersystem.enums.GoodStatusEnum;
-import com.wu.ordersystem.pojo.domain.OrderCategory;
-import com.wu.ordersystem.pojo.domain.OrderGoods;
-import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
-import com.wu.ordersystem.pojo.dto.OrderGoodEditDTO;
-import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
-import com.wu.ordersystem.pojo.vo.OrderGoodsStatusVO;
-import com.wu.ordersystem.pojo.vo.OrderGoodsVO;
+import com.wu.ordersystem.pojo.domain.resource.OrderCategory;
+import com.wu.ordersystem.pojo.domain.resource.OrderGoods;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodAddDTO;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodEditDTO;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodPageDTO;
+import com.wu.ordersystem.pojo.vo.resource.OrderGoodsStatusVO;
+import com.wu.ordersystem.pojo.vo.resource.OrderGoodsVO;
 import com.wu.ordersystem.service.OrderCategoryService;
 import com.wu.ordersystem.service.OrderGoodsService;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -1,53 +1,66 @@
-package com.wu.ordersystem.pojo.vo;
+package com.wu.ordersystem.pojo.domain.resource;
 
-import com.wu.ordersystem.enums.GoodStatusEnum;
-import com.wu.ordersystem.pojo.domain.OrderGoods;
-import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
-import org.springframework.beans.BeanUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * @author saltedfishzzZ
- * @date 2021-10-31
+ * @date 2021-10-27
  * @description
  */
 
-public class OrderGoodsVO {
+@Entity
+@Table(name = "order_goods")
+@DynamicUpdate
+@DynamicInsert
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
+public class OrderGoods {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long merchantId;
 
     private Long categoryId;
 
-    private String categoryName;
+    private Long goodDetailId;
 
     private String name;
 
-    private String img;
-
+    // 商品状态 可见GoodStatusEnum
     private Integer status;
 
-    private String goodStatus;
-
+    // 商品库存 -1表示不限量
     private Integer stock;
+
+    private String img;
 
     // 价格
     private BigDecimal price;
     // 餐盒费
     private BigDecimal packingFee;
 
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
-    private OrderGoodsDetail goodsDetail;
+    @UpdateTimestamp
+    @JsonIgnore
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
 
-    public OrderGoodsVO() {}
-
-    public OrderGoodsVO(OrderGoods good) {
-        BeanUtils.copyProperties(good, this);
-        this.goodStatus = GoodStatusEnum.getByCode(this.status).getStatus();
-    }
+    @OneToOne
+    @JoinColumn(name = "goodDetailId", referencedColumnName = "id", insertable = false, updatable = false)
+    private OrderGoodsDetail goodsDetail = new OrderGoodsDetail();
 
     public Long getId() {
         return id;
@@ -73,12 +86,12 @@ public class OrderGoodsVO {
         this.categoryId = categoryId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public Long getGoodDetailId() {
+        return goodDetailId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setGoodDetailId(Long goodDetailId) {
+        this.goodDetailId = goodDetailId;
     }
 
     public String getName() {
@@ -95,14 +108,6 @@ public class OrderGoodsVO {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getGoodStatus() {
-        return goodStatus;
-    }
-
-    public void setGoodStatus(String goodStatus) {
-        this.goodStatus = goodStatus;
     }
 
     public Integer getStock() {
@@ -143,6 +148,14 @@ public class OrderGoodsVO {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
     }
 
     public OrderGoodsDetail getGoodsDetail() {

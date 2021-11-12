@@ -1,8 +1,8 @@
 package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
-import com.wu.ordersystem.pojo.dto.OrderCategoryDTO;
-import com.wu.ordersystem.pojo.vo.OrderCategoryNameVO;
+import com.wu.ordersystem.pojo.dto.resource.OrderCategoryDTO;
+import com.wu.ordersystem.pojo.vo.resource.OrderCategoryNameVO;
 import com.wu.ordersystem.service.OrderCategoryService;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;

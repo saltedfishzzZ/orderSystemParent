@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -12,7 +15,14 @@ import org.springframework.context.annotation.Bean;
  * @description
  */
 
-@SpringBootApplication(scanBasePackages = "com.wu.ordersystem")
+@SpringBootApplication(
+		scanBasePackages = "com.wu.ordersystem",
+		exclude = {
+				DataSourceAutoConfiguration.class,
+				DataSourceTransactionManagerAutoConfiguration.class,
+				JdbcTemplateAutoConfiguration.class
+		}
+)
 public class OrderSystemApplication {
 
 	public static void main(String[] args) {

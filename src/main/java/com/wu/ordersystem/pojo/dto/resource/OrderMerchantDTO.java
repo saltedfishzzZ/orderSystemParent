@@ -1,4 +1,4 @@
-package com.wu.ordersystem.pojo.dto;
+package com.wu.ordersystem.pojo.dto.resource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.validation.annotation.Validated;

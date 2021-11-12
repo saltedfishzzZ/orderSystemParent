@@ -1,4 +1,4 @@
-package com.wu.ordersystem.pojo.dto;
+package com.wu.ordersystem.pojo.dto.resource;
 
 import org.springframework.validation.annotation.Validated;
 

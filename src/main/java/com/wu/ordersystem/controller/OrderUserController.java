@@ -2,8 +2,8 @@ package com.wu.ordersystem.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wu.ordersystem.common.CommonResult;
-import com.wu.ordersystem.pojo.domain.OrderUser;
-import com.wu.ordersystem.pojo.dto.OrderUserDTO;
+import com.wu.ordersystem.pojo.domain.resource.OrderUser;
+import com.wu.ordersystem.pojo.dto.resource.OrderUserDTO;
 import com.wu.ordersystem.service.OrderUserService;
 import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;

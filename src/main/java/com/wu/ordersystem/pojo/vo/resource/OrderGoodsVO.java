@@ -1,66 +1,53 @@
-package com.wu.ordersystem.pojo.domain;
+package com.wu.ordersystem.pojo.vo.resource;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.wu.ordersystem.enums.GoodStatusEnum;
+import com.wu.ordersystem.pojo.domain.resource.OrderGoods;
+import com.wu.ordersystem.pojo.domain.resource.OrderGoodsDetail;
+import org.springframework.beans.BeanUtils;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * @author saltedfishzzZ
- * @date 2021-10-27
+ * @date 2021-10-31
  * @description
  */
 
-@Entity
-@Table(name = "order_goods")
-@DynamicUpdate
-@DynamicInsert
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
-public class OrderGoods {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderGoodsVO {
     private Long id;
 
     private Long merchantId;
 
     private Long categoryId;
 
-    private Long goodDetailId;
+    private String categoryName;
 
     private String name;
 
-    // 商品状态 可见GoodStatusEnum
+    private String img;
+
     private Integer status;
 
-    // 商品库存 -1表示不限量
-    private Integer stock;
+    private String goodStatus;
 
-    private String img;
+    private Integer stock;
 
     // 价格
     private BigDecimal price;
     // 餐盒费
     private BigDecimal packingFee;
 
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
-    @UpdateTimestamp
-    @JsonIgnore
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private OrderGoodsDetail goodsDetail;
 
-    @OneToOne
-    @JoinColumn(name = "goodDetailId", referencedColumnName = "id", insertable = false, updatable = false)
-    private OrderGoodsDetail goodsDetail = new OrderGoodsDetail();
+    public OrderGoodsVO() {}
+
+    public OrderGoodsVO(OrderGoods good) {
+        BeanUtils.copyProperties(good, this);
+        this.goodStatus = GoodStatusEnum.getByCode(this.status).getStatus();
+    }
 
     public Long getId() {
         return id;
@@ -86,12 +73,12 @@ public class OrderGoods {
         this.categoryId = categoryId;
     }
 
-    public Long getGoodDetailId() {
-        return goodDetailId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setGoodDetailId(Long goodDetailId) {
-        this.goodDetailId = goodDetailId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getName() {
@@ -108,6 +95,14 @@ public class OrderGoods {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getGoodStatus() {
+        return goodStatus;
+    }
+
+    public void setGoodStatus(String goodStatus) {
+        this.goodStatus = goodStatus;
     }
 
     public Integer getStock() {
@@ -148,14 +143,6 @@ public class OrderGoods {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
     }
 
     public OrderGoodsDetail getGoodsDetail() {

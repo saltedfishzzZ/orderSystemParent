@@ -1,4 +1,4 @@
-package com.wu.ordersystem.pojo.domain;
+package com.wu.ordersystem.pojo.domain.resource;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;

@@ -1,13 +1,13 @@
 package com.wu.ordersystem.service.impl;
 
 import com.wu.ordersystem.enums.GoodStatusEnum;
-import com.wu.ordersystem.pojo.domain.OrderGoods;
-import com.wu.ordersystem.pojo.domain.OrderGoodsDetail;
-import com.wu.ordersystem.pojo.dto.OrderGoodAddDTO;
-import com.wu.ordersystem.pojo.dto.OrderGoodEditDTO;
-import com.wu.ordersystem.pojo.dto.OrderGoodPageDTO;
-import com.wu.ordersystem.repository.OrderGoodsDetailRepo;
-import com.wu.ordersystem.repository.OrderGoodsRepo;
+import com.wu.ordersystem.pojo.domain.resource.OrderGoods;
+import com.wu.ordersystem.pojo.domain.resource.OrderGoodsDetail;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodAddDTO;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodEditDTO;
+import com.wu.ordersystem.pojo.dto.resource.OrderGoodPageDTO;
+import com.wu.ordersystem.repository.resource.OrderGoodsDetailRepo;
+import com.wu.ordersystem.repository.resource.OrderGoodsRepo;
 import com.wu.ordersystem.service.OrderGoodsService;
 import com.wu.ordersystem.utils.SpecificationFactory;
 import org.springframework.beans.BeanUtils;

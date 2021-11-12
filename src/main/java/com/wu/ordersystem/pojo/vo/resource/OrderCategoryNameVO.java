@@ -1,4 +1,4 @@
-package com.wu.ordersystem.pojo.vo;
+package com.wu.ordersystem.pojo.vo.resource;
 
 /**
  * @author saltedfishzzZ

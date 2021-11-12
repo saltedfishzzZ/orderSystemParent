@@ -1,6 +1,6 @@
 package com.wu.ordersystem.utils;
 
-import com.wu.ordersystem.pojo.domain.OrderUser;
+import com.wu.ordersystem.pojo.domain.resource.OrderUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

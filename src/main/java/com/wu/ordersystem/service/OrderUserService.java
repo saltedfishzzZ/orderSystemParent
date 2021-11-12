@@ -1,7 +1,7 @@
 package com.wu.ordersystem.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.wu.ordersystem.pojo.domain.OrderUser;
+import com.wu.ordersystem.pojo.domain.resource.OrderUser;
 
 /**
  * @author wujianxin

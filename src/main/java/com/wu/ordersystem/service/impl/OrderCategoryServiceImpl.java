@@ -1,8 +1,8 @@
 package com.wu.ordersystem.service.impl;
 
-import com.wu.ordersystem.pojo.domain.OrderCategory;
-import com.wu.ordersystem.pojo.dto.OrderCategoryDTO;
-import com.wu.ordersystem.repository.OrderCategoryRepo;
+import com.wu.ordersystem.pojo.domain.resource.OrderCategory;
+import com.wu.ordersystem.pojo.dto.resource.OrderCategoryDTO;
+import com.wu.ordersystem.repository.resource.OrderCategoryRepo;
 import com.wu.ordersystem.service.OrderCategoryService;
 import com.wu.ordersystem.utils.SpecificationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author saltedfishzzZ

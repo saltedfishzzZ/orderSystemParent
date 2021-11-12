@@ -1,6 +1,6 @@
-package com.wu.ordersystem.repository;
+package com.wu.ordersystem.repository.resource;
 
-import com.wu.ordersystem.pojo.domain.OrderMerchant;
+import com.wu.ordersystem.pojo.domain.resource.OrderMerchant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
