@@ -61,14 +61,8 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
 
     @Override
     public void updateMerchantById(OrderMerchant orderMerchant) {
-        // 先更新数据库, 再更新缓存
+        // 先更新数据库, 再删除缓存
         OrderMerchant save = orderMerchantRepo.save(orderMerchant);
-        try {
-            stringRedisTemplate.opsForValue().set(String.format(Constants.ORDER_MERCHANT_INFO_KEY, save.getId()),
-                    objectMapper.writeValueAsString(save));
-        } catch (JsonProcessingException e) {
-            logger.error("{}-----序列化商户信息为json字符串失败: {}",
-                    GenerateTimeUtil.generateNowTime(), e.getMessage());
-        }
+        stringRedisTemplate.delete(String.format(Constants.ORDER_MERCHANT_INFO_KEY, save.getId()));
     }
 }
