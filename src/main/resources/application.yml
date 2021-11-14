@@ -6,32 +6,31 @@ spring:
     name: order-system
   datasource:
     resource:
+      pool-name: hikari-resource-pool
       jdbc-url: jdbc:mysql://localhost:3306/order_resource
       username: root
       password: 123456
       driver-class: com.mysql.cj.jdbc.Driver
     form:
+      pool-name: hikari-form-pool
       jdbc-url: jdbc:mysql://localhost:3306/order_form
       username: root
       password: 123456
       driver-class: com.mysql.cj.jdbc.Driver
     hikari:
-      pool-name: mysql-pool
       minimum-idle: 5
       maximum-pool-size: 20
       max-lifetime: 100000
       connection-test-query: select now()
-      keepalive-time: 30000
+      keepalive-time: 300000
       idle-timeout: 60000
+      auto-commit: true
   jpa:
     show-sql: true
     database: mysql
     open-in-view: true
   jackson:
     time-zone: GMT+8
-    datetime-format: yyyy-MM-dd HH:mm:ss
-    time-format: HH:mm:ss
-    date-format: yyyy-MM-dd
 
   redis:
     lettuce:
