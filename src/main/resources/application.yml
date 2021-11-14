@@ -43,15 +43,6 @@ spring:
     host: localhost
     port: 6379
 
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: debug
-#        type:
-#          descriptor:
-#            sql:
-#              BasicBinder: trace
 
 order-system:
   white-list-url:
