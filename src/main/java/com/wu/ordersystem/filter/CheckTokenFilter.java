@@ -60,10 +60,16 @@ public class CheckTokenFilter implements Filter {
         List<String> whiteListUrl = whiteListUrlProps.getWhiteListUrl();
 
         // 校验是否在白名单内
-        if (whiteListUrl.contains(requestURI)) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
+        for (String str : whiteListUrl) {
+            if (requestURI.startsWith(str)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
         }
+//        if (whiteListUrl.contains(requestURI)) {
+//            filterChain.doFilter(servletRequest, servletResponse);
+//            return;
+//        }
 
         // 进行token存在校验
         String token = request.getHeader("token");
