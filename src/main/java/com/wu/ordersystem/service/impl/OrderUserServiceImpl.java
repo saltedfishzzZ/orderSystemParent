@@ -63,11 +63,13 @@ public class OrderUserServiceImpl implements OrderUserService {
             // 缓存到redis中
             if (Objects.nonNull(orderUser)) {
                 try {
+                    stringRedisTemplate.multi();
                     stringRedisTemplate
                             .opsForHash()
                             .put(Constants.ORDER_USER_KEY, username,
                                     objectMapper.writeValueAsString(orderUser));
                     stringRedisTemplate.expire(Constants.ORDER_USER_KEY, Constants.ORDER_USER_TIME, TimeUnit.DAYS);
+                    stringRedisTemplate.exec();
                 } catch (JsonProcessingException e) {
                     logger.error("{}-----{}用户信息序列化失败-----{}",
                             GenerateTimeUtil.generateNowTime(), username, e.getMessage());
@@ -87,9 +89,11 @@ public class OrderUserServiceImpl implements OrderUserService {
     @Override
     public String generateTokenByUsername(OrderUser user) {
         String token = jwtTokenUtil.generateToken(user);
+        stringRedisTemplate.multi();
         stringRedisTemplate.opsForHash()
                 .put(Constants.ORDER_USER_TOKEN_KEY, user.getUsername(), token);
         stringRedisTemplate.expire(Constants.ORDER_USER_TOKEN_KEY, Constants.ORDER_USER_TOKEN_TIME, TimeUnit.DAYS);
+        stringRedisTemplate.exec();
         return token;
     }
 

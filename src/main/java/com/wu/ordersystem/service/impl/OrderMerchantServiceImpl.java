@@ -37,8 +37,8 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
 
     @Override
     public OrderMerchant getMerchantById(Long id) {
-        String value
-                = (String) stringRedisTemplate.opsForHash().get(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(id));
+        String value = (String)
+                stringRedisTemplate.boundHashOps(Constants.ORDER_MERCHANT_INFO_KEY).get(Long.toString(id));
         if (Objects.nonNull(value)) {
             try {
                 return objectMapper.readValue(value, OrderMerchant.class);
@@ -49,10 +49,12 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
         }
         OrderMerchant orderMerchant = orderMerchantRepo.getById(id);
         try {
+            stringRedisTemplate.multi();
             stringRedisTemplate.opsForHash().put(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(id),
                     objectMapper.writeValueAsString(orderMerchant));
             stringRedisTemplate.expire(Constants.ORDER_MERCHANT_INFO_KEY,
                     Constants.ORDER_MERCHANT_INFO_TIME, TimeUnit.DAYS);
+            stringRedisTemplate.exec();
         } catch (JsonProcessingException e) {
             logger.error("{}-----反序列化商户json字符串失败: {}",
                     GenerateTimeUtil.generateNowTime(), e.getMessage());
