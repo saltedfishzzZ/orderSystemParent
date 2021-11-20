@@ -44,11 +44,11 @@ public class OrderUserServiceImpl implements OrderUserService {
     @Override
     public OrderUser queryUserByUsername(String username) {
         // 从缓存中获取用户信息
-        String value = stringRedisTemplate.opsForValue().get(String.format(Constants.ORDER_USER_KEY, username));
+        Object value = stringRedisTemplate.opsForHash().get(Constants.ORDER_USER_KEY, username);
 
         if (Objects.nonNull(value)) {
             try {
-                return objectMapper.readValue(value, OrderUser.class);
+                return objectMapper.readValue((String) value, OrderUser.class);
             } catch (JsonProcessingException e) {
                 logger.error("{}-----{}用户缓存信息反序列化失败-----{}",
                         GenerateTimeUtil.generateNowTime(), username, e.getMessage());
@@ -64,10 +64,10 @@ public class OrderUserServiceImpl implements OrderUserService {
             if (Objects.nonNull(orderUser)) {
                 try {
                     stringRedisTemplate
-                            .opsForValue()
-                            .set(String.format(Constants.ORDER_USER_KEY, username),
-                                    objectMapper.writeValueAsString(orderUser),
-                                    Constants.ORDER_USER_TIME, TimeUnit.DAYS);
+                            .opsForHash()
+                            .put(Constants.ORDER_USER_KEY, username,
+                                    objectMapper.writeValueAsString(orderUser));
+                    stringRedisTemplate.expire(Constants.ORDER_USER_KEY, Constants.ORDER_USER_TIME, TimeUnit.DAYS);
                 } catch (JsonProcessingException e) {
                     logger.error("{}-----{}用户信息序列化失败-----{}",
                             GenerateTimeUtil.generateNowTime(), username, e.getMessage());
@@ -81,15 +81,15 @@ public class OrderUserServiceImpl implements OrderUserService {
 
     @Override
     public String getTokenFromCache(String username) {
-        return stringRedisTemplate.opsForValue().get(String.format(Constants.ORDER_USER_TOKEN_KEY, username));
+        return (String) stringRedisTemplate.opsForHash().get(Constants.ORDER_USER_TOKEN_KEY, username);
     }
 
     @Override
     public String generateTokenByUsername(OrderUser user) {
         String token = jwtTokenUtil.generateToken(user);
-        stringRedisTemplate.opsForValue().set(String.format(Constants.ORDER_USER_TOKEN_KEY, user.getUsername()),
-                token,
-                Constants.ORDER_USER_TOKEN_TIME, TimeUnit.DAYS);
+        stringRedisTemplate.opsForHash()
+                .put(Constants.ORDER_USER_TOKEN_KEY, user.getUsername(), token);
+        stringRedisTemplate.expire(Constants.ORDER_USER_TOKEN_KEY, Constants.ORDER_USER_TOKEN_TIME, TimeUnit.DAYS);
         return token;
     }
 

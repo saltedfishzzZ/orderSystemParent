@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -39,7 +40,7 @@ public class CheckTokenFilter implements Filter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    RedisTemplate redisTemplate;
+    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -78,7 +79,7 @@ public class CheckTokenFilter implements Filter {
             logger.warn("{}-----请求时token已过期", GenerateTimeUtil.generateNowTime());
             // token过期时 删除redis中缓存的token
             String username = jwtTokenUtil.getUsernameFromToken(token);
-            redisTemplate.delete(String.format(Constants.ORDER_USER_TOKEN_KEY, username));
+            stringRedisTemplate.opsForHash().delete(Constants.ORDER_USER_TOKEN_KEY, username);
             CommonResult commonResult = CommonResult.unauth().message("token已过期");
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(commonResult));

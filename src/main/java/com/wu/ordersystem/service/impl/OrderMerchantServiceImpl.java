@@ -38,7 +38,7 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
     @Override
     public OrderMerchant getMerchantById(Long id) {
         String value
-                = stringRedisTemplate.opsForValue().get(String.format(Constants.ORDER_MERCHANT_INFO_KEY, id));
+                = (String) stringRedisTemplate.opsForHash().get(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(id));
         if (Objects.nonNull(value)) {
             try {
                 return objectMapper.readValue(value, OrderMerchant.class);
@@ -49,8 +49,9 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
         }
         OrderMerchant orderMerchant = orderMerchantRepo.getById(id);
         try {
-            stringRedisTemplate.opsForValue().set(String.format(Constants.ORDER_MERCHANT_INFO_KEY, id),
-                    objectMapper.writeValueAsString(orderMerchant),
+            stringRedisTemplate.opsForHash().put(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(id),
+                    objectMapper.writeValueAsString(orderMerchant));
+            stringRedisTemplate.expire(Constants.ORDER_MERCHANT_INFO_KEY,
                     Constants.ORDER_MERCHANT_INFO_TIME, TimeUnit.DAYS);
         } catch (JsonProcessingException e) {
             logger.error("{}-----反序列化商户json字符串失败: {}",
@@ -63,6 +64,7 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
     public void updateMerchantById(OrderMerchant orderMerchant) {
         // 先更新数据库, 再删除缓存
         OrderMerchant save = orderMerchantRepo.save(orderMerchant);
-        stringRedisTemplate.delete(String.format(Constants.ORDER_MERCHANT_INFO_KEY, save.getId()));
+        stringRedisTemplate.opsForHash()
+                .delete(Constants.ORDER_MERCHANT_INFO_KEY, save.getId());
     }
 }
