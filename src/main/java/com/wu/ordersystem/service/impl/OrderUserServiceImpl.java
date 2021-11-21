@@ -11,6 +11,9 @@ import com.wu.ordersystem.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -89,11 +92,18 @@ public class OrderUserServiceImpl implements OrderUserService {
     @Override
     public String generateTokenByUsername(OrderUser user) {
         String token = jwtTokenUtil.generateToken(user);
-        stringRedisTemplate.multi();
-        stringRedisTemplate.opsForHash()
-                .put(Constants.ORDER_USER_TOKEN_KEY, user.getUsername(), token);
-        stringRedisTemplate.expire(Constants.ORDER_USER_TOKEN_KEY, Constants.ORDER_USER_TOKEN_TIME, TimeUnit.DAYS);
-        stringRedisTemplate.exec();
+        SessionCallback<Object> callback = new SessionCallback<Object>() {
+            @Override
+            public Object execute(RedisOperations redisOperations) throws DataAccessException {
+                redisOperations.multi();
+                redisOperations.opsForHash().put(
+                        Constants.ORDER_USER_TOKEN_KEY, user.getUsername(), token
+                );
+                redisOperations.expire(Constants.ORDER_USER_TOKEN_KEY, Constants.ORDER_MERCHANT_INFO_TIME, TimeUnit.DAYS);
+                return redisOperations.exec();
+            }
+        };
+        stringRedisTemplate.execute(callback);
         return token;
     }
 

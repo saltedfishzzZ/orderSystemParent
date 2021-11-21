@@ -10,6 +10,9 @@ import com.wu.ordersystem.utils.GenerateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +52,19 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
         }
         OrderMerchant orderMerchant = orderMerchantRepo.getById(id);
         try {
-            stringRedisTemplate.multi();
-            stringRedisTemplate.opsForHash().put(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(id),
-                    objectMapper.writeValueAsString(orderMerchant));
-            stringRedisTemplate.expire(Constants.ORDER_MERCHANT_INFO_KEY,
-                    Constants.ORDER_MERCHANT_INFO_TIME, TimeUnit.DAYS);
-            stringRedisTemplate.exec();
+            String orderMerchantStr = objectMapper.writeValueAsString(orderMerchant);
+            SessionCallback<Object> callback = new SessionCallback<>() {
+                @Override
+                public Object execute(RedisOperations redisOperations) throws  DataAccessException {
+                    redisOperations.multi();
+                    redisOperations.boundHashOps(Constants.ORDER_MERCHANT_INFO_KEY)
+                            .put(Long.toString(id), orderMerchantStr);
+                    redisOperations.expire(Constants.ORDER_MERCHANT_INFO_KEY,
+                            Constants.ORDER_MERCHANT_INFO_TIME, TimeUnit.DAYS);
+                    return redisOperations.exec();
+                };
+            };
+            stringRedisTemplate.execute(callback);
         } catch (JsonProcessingException e) {
             logger.error("{}-----反序列化商户json字符串失败: {}",
                     GenerateTimeUtil.generateNowTime(), e.getMessage());
@@ -67,6 +77,6 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
         // 先更新数据库, 再删除缓存
         OrderMerchant save = orderMerchantRepo.save(orderMerchant);
         stringRedisTemplate.opsForHash()
-                .delete(Constants.ORDER_MERCHANT_INFO_KEY, save.getId());
+                .delete(Constants.ORDER_MERCHANT_INFO_KEY, Long.toString(save.getId()));
     }
 }
