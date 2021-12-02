@@ -16,6 +16,8 @@ import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +55,8 @@ public class OrderMerchantServiceImpl implements OrderMerchantService {
         OrderMerchant orderMerchant = orderMerchantRepo.getById(id);
         try {
             String orderMerchantStr = objectMapper.writeValueAsString(orderMerchant);
-            SessionCallback<Object> callback = new SessionCallback<>() {
+
+            SessionCallback<Object> callback = new SessionCallback<Object>() {
                 @Override
                 public Object execute(RedisOperations redisOperations) throws  DataAccessException {
                     redisOperations.multi();
