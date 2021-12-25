@@ -23,11 +23,9 @@ public class UploadFileUtil {
     private static final Logger logger = LoggerFactory.getLogger(UploadFileUtil.class);
 
     private static final String endpoint = "https://oss-cn-beijing.aliyuncs.com";
-    private static final String accessKeyId = "LTAI4G29ey4x721jXFxCWVeu";
-    private static final String accessKeySecret = "AlLDE7QeZ8TlJBqrUuFONtay7E9hnC";
+
     private static final String bucketName = "order-system-saltedfish";
     private static final String fileUrl = bucketName + ".oss-cn-beijing.aliyuncs.com/";
-    private static final String key = "<key>";
 
     public static String uploadFile(File file) throws IOException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
