@@ -1,9 +1,11 @@
 package com.wu.ordersystem.controller;
 
 import com.wu.ordersystem.common.CommonResult;
+import com.wu.ordersystem.config.AliyunOssProps;
 import com.wu.ordersystem.utils.UploadFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +16,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping
 public class OrderCommonController {
+
+    @Autowired
+    AliyunOssProps ossProps;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderCommonController.class);
 
@@ -29,7 +34,7 @@ public class OrderCommonController {
                 outputStream.write(file.getBytes());
                 outputStream.close();
                 file.transferTo(newFile);
-                String fileName = UploadFileUtil.uploadFile(newFile);
+                String fileName = UploadFileUtil.getInstance(ossProps).uploadFile(newFile);
                 return CommonResult.success().data("fileName", fileName);
             }
         } catch (IOException e) {

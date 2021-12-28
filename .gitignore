@@ -33,3 +33,6 @@ build/
 .vscode/
 .mvn/
 src/main/resources/META-INF/additional-spring-configuration-metadata.json
+
+### 配置文件
+!**/src/main/resources/*

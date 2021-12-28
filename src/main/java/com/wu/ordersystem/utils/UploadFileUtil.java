@@ -8,6 +8,7 @@ import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
+import com.wu.ordersystem.config.AliyunOssProps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,32 +23,47 @@ public class UploadFileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadFileUtil.class);
 
-    private static final String endpoint = "https://oss-cn-beijing.aliyuncs.com";
+    private final AliyunOssProps ossProps;
 
-    private static final String bucketName = "order-system-saltedfish";
-    private static final String fileUrl = bucketName + ".oss-cn-beijing.aliyuncs.com/";
+    private static UploadFileUtil instance;
 
-    public static String uploadFile(File file) throws IOException {
+    private UploadFileUtil(AliyunOssProps ossProps) {
+        this.ossProps = ossProps;
+    }
+
+    public static UploadFileUtil getInstance(AliyunOssProps ossProps) {
+        if (null == instance) {
+            synchronized (UploadFileUtil.class) {
+                if (null == instance) {
+                    instance = new UploadFileUtil(ossProps);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public String uploadFile(File file) throws IOException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String now = LocalDate.now().format(dateTimeFormatter);
         // 设置文件名
         String fileName =
                 UUID.randomUUID() + "-" + now + "-" + file.getName();
         OSS client = new OSSClientBuilder()
-                .build(endpoint, accessKeyId, accessKeySecret);
+                .build(instance.ossProps.getEndpoint(), instance.ossProps.getAccessKeyId(),
+                        instance.ossProps.getAccessKeySecret());
         // 判断容器是否存在
         try {
-            if (!client.doesBucketExist(bucketName)) {
-                client.createBucket(bucketName);
-                CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);
+            if (!client.doesBucketExist(instance.ossProps.getBucketName())) {
+                client.createBucket(instance.ossProps.getBucketName());
+                CreateBucketRequest createBucketRequest = new CreateBucketRequest(instance.ossProps.getBucketName());
                 createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);
                 client.createBucket(createBucketRequest);
             }
             // 上传文件
-            PutObjectResult result = client.putObject(new PutObjectRequest(bucketName, fileName, file));
+            PutObjectResult result = client.putObject(new PutObjectRequest(instance.ossProps.getBucketName(), fileName, file));
             if (null != result) {
                 logger.info(LocalDateTime.now() + "---上传文件成功, 文件地址链接为：" +
-                        fileUrl + fileName);
+                       instance.ossProps.getBucketName() + instance.ossProps.getFileUrlSuffix() + fileName);
             }
         } catch (OSSException ossException) {
             logger.error(ossException.getMessage(), ossException);
@@ -58,6 +74,6 @@ public class UploadFileUtil {
                 client.shutdown();
             }
         }
-        return fileUrl + fileName;
+        return instance.ossProps.getBucketName() + instance.ossProps.getFileUrlSuffix() + fileName;
     }
 }
