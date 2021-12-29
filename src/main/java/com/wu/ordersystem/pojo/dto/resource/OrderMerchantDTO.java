@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 
@@ -33,6 +34,9 @@ public class OrderMerchantDTO {
     @NotNull(message = "营业结束时间不能为空")
     @JsonFormat(pattern = "HH:mm", timezone = "GMT+8")
     private LocalTime businessEndTime;
+
+    @NotEmpty(message = "LOGO不能为空")
+    private String picture;
 
     public String getName() {
         return name;
@@ -80,6 +84,14 @@ public class OrderMerchantDTO {
 
     public void setBusinessEndTime(LocalTime businessEndTime) {
         this.businessEndTime = businessEndTime;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public OrderMerchantDTO() {

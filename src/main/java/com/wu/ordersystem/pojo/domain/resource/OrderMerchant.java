@@ -56,6 +56,11 @@ public class OrderMerchant {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime businessEndTime;
 
+    /**
+     * LOGO
+     */
+    private String picture;
+
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @JsonIgnore
@@ -112,6 +117,14 @@ public class OrderMerchant {
 
     public void setAnnouncement(String announcement) {
         this.announcement = announcement;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public LocalTime getBusinessStartTime() {

@@ -50,6 +50,7 @@ public class OrderMerchantController {
         }
         merchant.setBusinessStartTime(orderMerchantDTO.getBusinessStartTime());
         merchant.setBusinessEndTime(orderMerchantDTO.getBusinessEndTime());
+        merchant.setPicture(orderMerchantDTO.getPicture());
 
         orderMerchantService.updateMerchantById(merchant);
 
